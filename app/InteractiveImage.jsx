@@ -1,6 +1,8 @@
 Draggable = require("./Draggable.jsx");
 Image     = require("./Image.jsx");
 
+classSet  = React.addons.classSet;
+
 
 var InteractiveImage = React.createClass({
 
@@ -8,30 +10,44 @@ var InteractiveImage = React.createClass({
 
   getInitialState: function() {
     return {
-    	left: this.props.left,
-    	top: this.props.top
+      active: false
     };
   },
 
   handleDragStart: function(e){
-  	console.log(e);
+    this.startLeft = this.props.left;
+    this.startTop = this.props.top;
+    this.setState({active: true});
   },
 
   handleDragMove: function(e){
-  	this.setState({
-  		left: e.currentX,
-  		top: e.currentY,
-  	})
+    var newPosition = {
+      left: this.startLeft + (e.currentX - e.startX),
+      top: this.startTop + (e.currentY - e.startY)
+    };
+
+    this.props.onMove(this.props.key, newPosition);
   },
 
   handleDragEnd: function(e){
-  	console.log(e);
+    this.offsetX = null
+    this.offsetY = null
+    this.setState({active: false});
   },
 
 	render: function(){
+    var containerStyle = {
+      transform: "translate(" + this.props.left + "px, " + this.props.top + "px)"
+    };
+
+    var containerClasses = classSet({
+      "InteractiveImage": true,
+      "active": this.state.active
+    });
+
 		return (
-      <div className="InteractiveImage">
-				<Image left={this.state.left} top={this.state.top} src={this.props.src} />
+      <div className={containerClasses} style={containerStyle} >
+				<Image src={this.props.src} />
       </div>
 		);
 	}

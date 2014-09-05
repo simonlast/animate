@@ -1,3 +1,9 @@
 body {
-  background-color: #f00;
+	margin: 0;
+}
+
+
+.InteractiveImage {
+	position: absolute;
+	padding: 4px;
 }
