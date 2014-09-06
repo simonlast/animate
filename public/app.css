@@ -3,7 +3,79 @@ body {
 }
 
 
-.InteractiveImage {
+#root {
 	position: absolute;
-	padding: 4px;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+
+.Canvas {
+	height: calc(100vh - 150px);
+}
+
+
+.Paths {
+	height: 100%;
+}
+
+
+.Paths svg {
+	display: block;
+	width: 100%;
+	height: 100%;
+
+	cursor: crosshair;
+}
+
+
+.Timeline {
+	height: 150px;
+	background-color: rgb(230, 230, 230);
+}
+
+
+.Slider {
+	width: 100%;
+	height: 20px;
+	position: relative;
+
+	background-color: rgb(210, 210, 210);
+
+	cursor: -webkit-grab;
+}
+
+.Slider:hover .button{
+	box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.Slider:active {
+	cursor: -webkit-grabbing;
+}
+
+.Slider:active .button {
+	box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.Slider .button {
+	position: absolute;
+
+	background-color: rgb(120, 120, 120);
+
+	height: 24px;
+	width: 24px;
+	margin-left: -2px;
+	margin-top: -2px;
+	border-radius: 100%;
+	-webkit-transition: box-shadow 100ms ease;
+}
+
+
+path {
+	fill: transparent;
+	stroke: black;
+	stroke-linecap: round;
+	stroke-width: 8px;
 }
