@@ -8,36 +8,60 @@ var Draggable = {
   	this.startY = null;
 
   	var domNode = this.getDOMNode();
-  	domNode.addEventListener("mousedown", this._draggableMouseDown);
-  	document.addEventListener("mousemove", this._draggableMouseMove);
-  	document.addEventListener("mouseup", this._draggableMouseUp);
+  	domNode.addEventListener("mousedown", this.draggableMouseDown);
+  	document.addEventListener("mousemove", this.draggableMouseMove);
+  	document.addEventListener("mouseup", this.draggableMouseUp);
   },
 
-  _draggableMouseDown: function(e) {
+
+  componentWillUnmount: function() {
+    var domNode = this.getDOMNode();
+    domNode.removeEventListener("mousedown", this.draggableMouseDown);
+    document.removeEventListener("mousemove", this.draggableMouseMove);
+    document.removeEventListener("mouseup", this.draggableMouseUp);
+  },
+
+
+  /**
+  * Events
+  */
+
+  draggableMouseDown: function(e) {
   	e.preventDefault();
   	this.startX = e.clientX;
   	this.startY = e.clientY;
   	this.dragging = true;
-  	this.handleDragStart(this._getEventDetail(e));
+
+    if(_.isFunction(this.handleDragStart)){
+      this.handleDragStart(this._getEventDetail(e));
+    }
   },
 
-  _draggableMouseMove: function(e) {
+
+  draggableMouseMove: function(e) {
   	if(this.dragging){
 	  	e.preventDefault();
-  		this.handleDragMove(this._getEventDetail(e));
-  	}
+
+      if(_.isFunction(this.handleDragMove)){
+        this.handleDragMove(this._getEventDetail(e));
+      }
+    }
   },
 
-  _draggableMouseUp: function(e) {
+
+  draggableMouseUp: function(e) {
   	e.preventDefault();
   	if(this.dragging){
-	  	this.handleDragEnd(this._getEventDetail(e));
+      if(_.isFunction(this.handleDragEnd)){
+        this.handleDragEnd(this._getEventDetail(e));
+      }
 
 	  	this.dragging = false;
 	  	this.startX = null;
 	  	this.startY = null;
   	}
   },
+
 
   _getEventDetail: function(e) {
   	return {
@@ -48,13 +72,6 @@ var Draggable = {
   		currentY: e.clientY
   	};
   },
-
-  componentWillUnmount: function() {
-  	var domNode = this.getDOMNode();
-  	domNode.removeEventListener("mousedown", this._draggableMouseDown);
-  	document.removeEventListener("mousemove", this._draggableMouseMove);
-  	document.removeEventListener("mouseup", this._draggableMouseUp);
-  }
 
 };
 

@@ -1,5 +1,5 @@
-Slider       = require("./Slider.jsx");
-FramePreview = require("./FramePreview.jsx");
+var Slider       = require("./Slider.jsx");
+var FramePreview = require("./FramePreview.jsx");
 
 
 var Timeline = React.createClass({
@@ -15,12 +15,21 @@ var Timeline = React.createClass({
 
 		return (
 			<div className="Timeline">
-				<Slider current={this.props.time} max={maxTime} />
+				<Slider current={this.props.currentFrame} max={maxTime} onChange={this.sliderChanged} />
 				<div className="previews">
 					{previews}
 				</div>
 			</div>
 		);
+	},
+
+
+	/**
+	* Events
+	*/
+
+	sliderChanged: function(newValue) {
+		this.props.onCurrentFrameChange(newValue);
 	}
 
 });
