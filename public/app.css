@@ -13,7 +13,7 @@ body {
 
 
 .Canvas {
-	height: calc(100vh - 40px);
+	height: calc(100vh - 64px);
 }
 
 
@@ -32,14 +32,14 @@ body {
 
 
 .Timeline {
-	height: 40px;
+	height: 64px;
 	background-color: rgb(230, 230, 230);
 }
 
 
 .Slider {
 	width: 100%;
-	height: 20px;
+	height: 32px;
 	position: relative;
 	z-index: 2;
 
@@ -69,10 +69,11 @@ body {
 
 	background-color: rgb(120, 120, 120);
 
-	height: 24px;
-	width: 24px;
-	margin-left: -12px;
-	margin-top: -2px;
+	height: 40px;
+	width: 40px;
+	margin-left: -20px;
+	margin-top: -4px;
+
 	border-radius: 100%;
 	-webkit-transition: box-shadow 100ms ease;
 }
@@ -89,7 +90,7 @@ body {
 	cursor: pointer;
 
 	width: 12px;
-	height: 20px;
+	height: 32px;
 
 	margin-left: -6px;
 	background-color: rgb(210,210,210);
