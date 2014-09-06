@@ -19,6 +19,8 @@ var App = React.createClass({
 		this.playInterval = setInterval(this.play, this.PLAY_INTERVAL);
 
 		Mousetrap.bind("space", this.togglePlayState);
+		Mousetrap.bind("right", this.advanceFrame);
+		Mousetrap.bind("left", this.retractFrame);
 	},
 
 
@@ -73,7 +75,7 @@ var App = React.createClass({
 			return;
 		}
 
-		this.advanceFrame();
+		this.advanceFrameWithGuard();
 	},
 
 
@@ -126,7 +128,7 @@ var App = React.createClass({
 	* Helpers
 	*/
 
-	advanceFrame: function(){
+	advanceFrameWithGuard: function(){
 		var state = _.cloneDeep(this.state);
 
 		state.currentFrame += 1
@@ -138,6 +140,30 @@ var App = React.createClass({
 			if(state.currentFrame > lastFrame.frameNumber + 4){
 				state.currentFrame = 0;
 			}
+		}
+
+		this.setState(state);
+	},
+
+
+	advanceFrame: function() {
+		var state = _.cloneDeep(this.state);
+		state.currentFrame++;
+
+		if(state.currentFrame >= this.MAX_FRAME_COUNT) {
+			state.currentFrame = 0;
+		}
+
+		this.setState(state);
+	},
+
+
+	retractFrame: function() {
+		var state = _.cloneDeep(this.state);
+		state.currentFrame--;
+
+		if(state.currentFrame < 0) {
+			state.currentFrame = this.MAX_FRAME_COUNT - 1;
 		}
 
 		this.setState(state);
