@@ -4,6 +4,8 @@ var Paths      = require("./Paths.jsx");
 var Undoable   = require("./Undoable.jsx");
 var PlayButton = require("./PlayButton.jsx");
 
+var classSet   = React.addons.classSet;
+
 
 var App = React.createClass({
 
@@ -42,8 +44,13 @@ var App = React.createClass({
 			lastPaths = lastFrame.paths;
 		}
 
+		var appClassSet = classSet({
+			"playing": this.state.playing,
+			"App": true
+		});
+
 		return (
-			<div className="App">
+			<div className={appClassSet}>
 				<div className="canvas-container">
 					<Paths paths={lastPaths} />
 					<Canvas paths={currentPaths}

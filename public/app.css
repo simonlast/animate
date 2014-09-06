@@ -26,6 +26,7 @@ body {
 	bottom: 0;
 }
 
+
 .canvas-container > .Paths {
 	opacity: 0;
 	transition: opacity 200ms ease;
@@ -34,6 +35,11 @@ body {
 
 .canvas-container:hover > .Paths {
 	opacity: 0.1;
+}
+
+
+.App.playing .canvas-container > .Paths {
+	opacity: 0;
 }
 
 
