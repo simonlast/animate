@@ -184,9 +184,7 @@ var Canvas = React.createClass({displayName: 'Canvas',
 
 module.exports = Canvas;
 },{"./Draggable.jsx":"/Users/simonlast/Dropbox/Docs/Projects/react-animate/app/Draggable.jsx","./Paths.jsx":"/Users/simonlast/Dropbox/Docs/Projects/react-animate/app/Paths.jsx"}],"/Users/simonlast/Dropbox/Docs/Projects/react-animate/app/Draggable.jsx":[function(require,module,exports){
-/** @jsx React.DOM */
-
-var Draggable = {
+/** @jsx React.DOM */var Draggable = {
 
   componentDidMount: function() {
   	this.dragging = false;
@@ -264,14 +262,25 @@ var Draggable = {
 
 module.exports = Draggable
 },{}],"/Users/simonlast/Dropbox/Docs/Projects/react-animate/app/FramePreview.jsx":[function(require,module,exports){
-/** @jsx React.DOM */
-var FramePreview = React.createClass({displayName: 'FramePreview',
+/** @jsx React.DOM */var FramePreview = React.createClass({displayName: 'FramePreview',
 
 	render: function() {
+		var previewStyle = {
+			left: ((this.props.time / this.props.max) * 100) + "%"
+		};
+
 		return (
-			React.DOM.div({className: "FramePreview"}
-			)
+			React.DOM.div({className: "FramePreview", style: previewStyle, onClick: this.handleClick})
 		);
+	},
+
+
+	/**
+	* Events
+	*/
+
+	handleClick: function(){
+		this.props.onSelect(this.props.time);
 	}
 
 });
@@ -388,13 +397,17 @@ var FramePreview = require("./FramePreview.jsx");
 var Timeline = React.createClass({displayName: 'Timeline',
 
 	render: function() {
+		var maxTime = 100;
+
 		var previews = _.map(this.props.frames, (function(frameData){
 			return (
-				FramePreview({key: frameData.key, time: frameData.time, paths: frameData.paths})
+				FramePreview({
+					key: frameData.key, 
+					time: frameData.frameNumber, 
+					max: maxTime, 
+					onSelect: this.previewSelected})
 			);
 		}).bind(this));
-
-		var maxTime = 100;
 
 		return (
 			React.DOM.div({className: "Timeline"}, 
@@ -413,6 +426,10 @@ var Timeline = React.createClass({displayName: 'Timeline',
 
 	sliderChanged: function(newValue) {
 		this.props.onCurrentFrameChange(newValue);
+	},
+
+	previewSelected: function(previewTime) {
+		this.props.onCurrentFrameChange(previewTime);
 	}
 
 });

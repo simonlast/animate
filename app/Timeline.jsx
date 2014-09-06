@@ -5,13 +5,17 @@ var FramePreview = require("./FramePreview.jsx");
 var Timeline = React.createClass({
 
 	render: function() {
+		var maxTime = 100;
+
 		var previews = _.map(this.props.frames, (function(frameData){
 			return (
-				<FramePreview key={frameData.key} time={frameData.time} paths={frameData.paths} />
+				<FramePreview
+					key={frameData.key}
+					time={frameData.frameNumber}
+					max={maxTime}
+					onSelect={this.previewSelected} />
 			);
 		}).bind(this));
-
-		var maxTime = 100;
 
 		return (
 			<div className="Timeline">
@@ -30,6 +34,10 @@ var Timeline = React.createClass({
 
 	sliderChanged: function(newValue) {
 		this.props.onCurrentFrameChange(newValue);
+	},
+
+	previewSelected: function(previewTime) {
+		this.props.onCurrentFrameChange(previewTime);
 	}
 
 });

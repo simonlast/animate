@@ -1,5 +1,3 @@
-
-
 var Draggable = {
 
   componentDidMount: function() {
