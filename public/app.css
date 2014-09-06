@@ -49,27 +49,48 @@ body {
 	cursor: crosshair;
 }
 
+.App > .timeline-container {
+	display: flex;
+	background-color: rgb(230, 230, 230);
+}
+
 
 .Timeline {
+	flex-grow: 1;
+
 	height: 64px;
-	background-color: rgb(230, 230, 230);
+
+	position: relative;
+}
+
+
+.PlayButton {
+	width: 64px;
+	height: 64px;
+
+	flex-grow: 0;
+	flex-shrink: 0;
+
+	margin-right: 40px;
+
+	cursor: pointer;
+
+	font-size: 48px;
+	text-align: center;
+	padding-top: 4px;
+	color: rgb(120, 120, 120);
 }
 
 
 .Slider {
 	width: 100%;
 	height: 32px;
+
 	position: relative;
 	z-index: 2;
 
 	background-color: rgb(210, 210, 210);
-
 	cursor: -webkit-grab;
-}
-
-
-.Slider:hover .button{
-	box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
 
 
@@ -78,7 +99,17 @@ body {
 }
 
 
-.Slider:active .button {
+.box-shadow-button {
+	-webkit-transition: box-shadow 200ms ease;
+}
+
+
+.box-shadow-button:hover {
+	box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+
+.box-shadow-button:active {
 	box-shadow: 0 4px 8px rgba(0,0,0,0.3);
 }
 
@@ -94,12 +125,15 @@ body {
 	margin-top: -4px;
 
 	border-radius: 100%;
-	-webkit-transition: box-shadow 200ms ease;
 }
 
 
 .Timeline .previews {
-	position: relative;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
 	z-index: 1;
 }
 
@@ -109,7 +143,7 @@ body {
 	cursor: pointer;
 
 	width: 12px;
-	height: 32px;
+	height: 64px;
 
 	margin-left: -6px;
 	background-color: rgb(210,210,210);

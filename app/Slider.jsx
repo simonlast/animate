@@ -1,7 +1,5 @@
 var Draggable = require("./Draggable.jsx");
 
-var classSet  = React.addons.classSet;
-
 
 var Slider = React.createClass({
 
@@ -14,7 +12,7 @@ var Slider = React.createClass({
 
 		return (
 			<div className="Slider">
-				<div className="button" style={buttonStyle}></div>
+				<div className="button box-shadow-button" style={buttonStyle}></div>
 			</div>
 		);
 	},
@@ -46,7 +44,16 @@ var Slider = React.createClass({
 	updateSlider: function(screenX) {
 		var thisRect = this.getDOMNode().getBoundingClientRect();
 		var ratio = (screenX - thisRect.left) / thisRect.width;
-		var newValue = Math.floor(ratio * this.props.max)
+		var newValue = Math.floor(ratio * this.props.max);
+
+		if(newValue < 0){
+			newValue = 0;
+		}
+
+		if(newValue > this.props.max){
+			newValue = this.props.max;
+		}
+
 		this.props.onChange(newValue);
 	}
 
