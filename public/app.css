@@ -12,8 +12,27 @@ body {
 }
 
 
-.Canvas {
+.canvas-container {
 	height: calc(100vh - 64px);
+	position: relative;
+}
+
+.canvas-container > .Paths, .canvas-container > .Canvas {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+.canvas-container > .Paths {
+	opacity: 0;
+	transition: opacity 200ms ease;
+}
+
+
+.canvas-container:hover > .Paths {
+	opacity: 0.1;
 }
 
 
@@ -75,7 +94,7 @@ body {
 	margin-top: -4px;
 
 	border-radius: 100%;
-	-webkit-transition: box-shadow 100ms ease;
+	-webkit-transition: box-shadow 200ms ease;
 }
 
 

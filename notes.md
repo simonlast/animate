@@ -152,7 +152,29 @@ FramePreview
 
 
 
+# Undo
 
+undoStack []
+redoStack []
+current 1
+
+* perform 2.
+
+undoStack [1]
+redoStack []
+current 2
+
+* CMD+Z
+
+undoStack []
+redoStack [2]
+current 1
+
+* CMD+SHIFT+Z
+
+undoStack [1]
+redoStack []
+current 2
 
 
 

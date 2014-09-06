@@ -26,7 +26,14 @@ var Canvas = React.createClass({
 
 	handleDragMove: function(e) {
 		this.props.onAppendPath([e.currentX, e.currentY]);
+	},
+
+
+	handleDragEnd: function(e) {
+		this.props.onAppendPath([e.currentX, e.currentY]);
+		this.props.onFinishPath();
 	}
+
 
 });
 

@@ -1,8 +1,18 @@
 var Canvas   = require("./Canvas.jsx");
 var Timeline = require("./Timeline.jsx");
+var Paths    = require("./Paths.jsx");
+var Undoable = require("./Undoable.jsx");
 
 
 var App = React.createClass({
+
+	mixins: [Undoable],
+
+
+	componentDidMount: function() {
+		this.checkpoint();
+	},
+
 
 	getInitialState: function() {
 		return {
@@ -14,12 +24,22 @@ var App = React.createClass({
 
 	render: function() {
 		var currentPaths = this.generateCurrentPaths();
+		var lastFrame    = this.findLastFrame();
+		var lastPaths    = [];
+
+		if(lastFrame){
+			lastPaths = lastFrame.paths;
+		}
 
 		return (
 			<div className="App">
-				<Canvas paths={currentPaths}
-					onCreatePath={this.handleCreatePath}
-					onAppendPath={this.handleAppendPath}	/>
+				<div className="canvas-container">
+					<Paths paths={lastPaths} />
+					<Canvas paths={currentPaths}
+						onCreatePath={this.handleCreatePath}
+						onAppendPath={this.handleAppendPath}
+						onFinishPath={this.handleFinishPath} />
+					</div>
 				<Timeline
 					currentFrame={this.state.currentFrame}
 					frames={this.state.frames}
@@ -41,6 +61,7 @@ var App = React.createClass({
 		} else {
 			this.createFrameAtCurrentTime(point)
 		}
+
 	},
 
 
@@ -54,6 +75,11 @@ var App = React.createClass({
 		var state = _.cloneDeep(this.state);
 		state.currentFrame = newValue;
 		this.setState(state);
+	},
+
+
+	handleFinishPath: function() {
+		this.checkpoint();
 	},
 
 
@@ -109,9 +135,9 @@ var App = React.createClass({
 	},
 
 
-	findLastFrameToCurrent: function() {
+	findLastFrame: function() {
 		return _.findLast(this.state.frames, (function(frameData){
-			return frameData.frameNumber <= this.state.currentFrame;
+			return frameData.frameNumber < this.state.currentFrame;
 		}).bind(this));
 	},
 
