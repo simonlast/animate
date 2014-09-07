@@ -107,9 +107,7 @@ var App = React.createClass({
 
 
 	handleCurrentFrameChange: function(newValue) {
-		var state = _.cloneDeep(this.state);
-		state.currentFrame = newValue;
-		this.setState(state);
+		this.setState({currentFrame: newValue});
 	},
 
 
@@ -119,9 +117,7 @@ var App = React.createClass({
 
 
 	setPlayState: function(isPlaying){
-		var state = _.cloneDeep(this.state);
-		state.playing = isPlaying;
-		this.setState(state);
+		this.setState({playing: isPlaying});
 	},
 
 
@@ -136,49 +132,44 @@ var App = React.createClass({
 	*/
 
 	advanceFrameWithGuard: function(){
-		var state = _.cloneDeep(this.state);
-
-		state.currentFrame += 1
-
+		var newFrame  = this.state.currentFrame += 1;
 		var lastFrame = this.findLastFrame();
 
 		if(lastFrame) {
 			// Restart at 4 frames past the last frame.
-			if(state.currentFrame > lastFrame.frameNumber + 4){
-				state.currentFrame = 0;
+			if(newFrame > lastFrame.frameNumber + 4){
+				newFrame = 0;
 			}
 		}
 
-		this.setState(state);
+		this.setState({currentFrame: newFrame});
 	},
 
 
 	advanceFrame: function() {
-		var state = _.cloneDeep(this.state);
-		state.currentFrame++;
+		var newFrame = this.state.currentFrame + 1;
 
-		if(state.currentFrame >= this.MAX_FRAME_COUNT) {
-			state.currentFrame = 0;
+		if(newFrame >= this.MAX_FRAME_COUNT) {
+			newFrame = 0;
 		}
 
-		this.setState(state);
+		this.setState({currentFrame: newFrame});
 	},
 
 
 	retractFrame: function() {
-		var state = _.cloneDeep(this.state);
-		state.currentFrame--;
+		var newFrame = this.state.currentFrame - 1;
 
-		if(state.currentFrame < 0) {
-			state.currentFrame = this.MAX_FRAME_COUNT - 1;
+		if(newFrame < 0) {
+			newFrame = this.MAX_FRAME_COUNT - 1;
 		}
 
-		this.setState(state);
+		this.setState({currentFrame: newFrame});
 	},
 
 
 	createPathInFrame: function(key, point) {
-		var state = _.cloneDeep(this.state);
+		var currentFrames = _.cloneDeep(this.state);
 
 		var frameWithKey = _.find(state.frames, (function(frameData){
 			return frameData.key === key;
