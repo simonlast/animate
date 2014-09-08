@@ -169,7 +169,7 @@ var App = React.createClass({
 
 
 	createPathInFrame: function(key, point) {
-		var currentFrames = _.cloneDeep(this.state);
+		var state = _.cloneDeep(this.state);
 
 		var frameWithKey = _.find(state.frames, (function(frameData){
 			return frameData.key === key;
