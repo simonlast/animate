@@ -1,6 +1,6 @@
-var Slider       = require("./Slider.jsx");
-var FramePreview = require("./FramePreview.jsx");
-var PlayButton   = require("./PlayButton.jsx");
+var Slider       = require("../Slider/Slider.jsx");
+var FramePreview = require("../FramePreview/FramePreview.jsx");
+var PlayButton   = require("../PlayButton/PlayButton.jsx");
 
 
 var Timeline = React.createClass({

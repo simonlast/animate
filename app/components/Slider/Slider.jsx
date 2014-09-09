@@ -1,4 +1,4 @@
-var Draggable = require("./Draggable.jsx");
+var Draggable = require("../../mixins/Draggable.jsx");
 
 
 var Slider = React.createClass({

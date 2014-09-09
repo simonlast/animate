@@ -1,4 +1,4 @@
-App = require("./App.jsx")
+var App = require("./components/App/App.jsx");
 
 
 React.renderComponent(

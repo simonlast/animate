@@ -1,4 +1,3 @@
-
 var Paths = React.createClass({
 
 	render: function() {

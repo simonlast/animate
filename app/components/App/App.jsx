@@ -1,8 +1,8 @@
-var Canvas     = require("./Canvas.jsx");
-var Timeline   = require("./Timeline.jsx");
-var Paths      = require("./Paths.jsx");
-var Undoable   = require("./Undoable.jsx");
-var PlayButton = require("./PlayButton.jsx");
+var Canvas     = require("../Canvas/Canvas.jsx");
+var Timeline   = require("../Timeline/Timeline.jsx");
+var Paths      = require("../Paths/Paths.jsx");
+var Undoable   = require("../../mixins/Undoable.jsx");
+var PlayButton = require("../PlayButton/PlayButton.jsx");
 
 var classSet   = React.addons.classSet;
 

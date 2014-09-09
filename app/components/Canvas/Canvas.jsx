@@ -1,5 +1,5 @@
-var Paths     = require("./Paths.jsx");
-var Draggable = require("./Draggable.jsx");
+var Paths     = require("../Paths/Paths.jsx");
+var Draggable = require("../../mixins/Draggable.jsx");
 
 
 var Canvas = React.createClass({
