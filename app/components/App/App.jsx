@@ -1,9 +1,9 @@
-var Canvas     = require("../Canvas/Canvas.jsx");
-var Timeline   = require("../Timeline/Timeline.jsx");
-var Paths      = require("../Paths/Paths.jsx");
-var Undoable   = require("../../mixins/Undoable.jsx");
-var PlayButton = require("../PlayButton/PlayButton.jsx");
-var AppStore   = require("../../stores/AppStore.js");
+var Canvas        = require("../Canvas/Canvas.jsx");
+var Timeline      = require("../Timeline/Timeline.jsx");
+var Paths         = require("../Paths/Paths.jsx");
+var PlayButton    = require("../PlayButton/PlayButton.jsx");
+var AppStore      = require("../../stores/AppStore.js");
+var RevisionStore = require("../../stores/RevisionStore.js");
 
 var classSet   = React.addons.classSet;
 
@@ -12,9 +12,12 @@ var App = React.createClass({
 
 	componentDidMount: function() {
 		AppStore.onValue(this.storeChanged);
+
 		Mousetrap.bind("space", this.togglePlayState);
 		Mousetrap.bind("right", this.advanceFrame);
 		Mousetrap.bind("left", this.retractFrame);
+    Mousetrap.bind("command+z", this.handleUndo);
+    Mousetrap.bind("command+shift+z", this.handleRedo);
 	},
 
 
@@ -69,6 +72,16 @@ var App = React.createClass({
 
 	retractFrame: function() {
 		AppStore.retractFrame();
+	},
+
+
+	handleUndo: function() {
+		RevisionStore.undo();
+	},
+
+
+	handleRedo: function() {
+		RevisionStore.redo();
 	}
 
 });

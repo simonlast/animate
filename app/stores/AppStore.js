@@ -1,3 +1,6 @@
+var RevisionStore = require("./RevisionStore.js");
+
+
 var PLAY_INTERVAL   = 100;
 var	MAX_FRAME_COUNT = 100;
 
@@ -12,7 +15,10 @@ var AppStore = function(){
 		maxFrameCount: MAX_FRAME_COUNT
 	};
 
+	RevisionStore.checkpoint(this.data_);
+
 	this.playInterval = setInterval(this.play.bind(this), PLAY_INTERVAL);
+	RevisionStore.onValue(this.onRevisionStoreChange.bind(this));
 };
 
 
@@ -96,8 +102,7 @@ AppStore.prototype.updateFrame = function(newValue) {
 
 
 AppStore.prototype.finishCurrentPath = function() {
-	// this.checkpoint();
-	this.triggerChange();
+	RevisionStore.checkpoint(this.data_);
 };
 
 
@@ -153,9 +158,7 @@ AppStore.prototype.retractFrame = function() {
 
 
 AppStore.prototype.createPathInFrame = function(key, point) {
-	var state = _.cloneDeep(this.data_);
-
-	var frameWithKey = _.find(state.frames, (function(frameData){
+	var frameWithKey = _.find(this.data_.frames, (function(frameData){
 		return frameData.key === key;
 	}).bind(this));
 
@@ -165,21 +168,17 @@ AppStore.prototype.createPathInFrame = function(key, point) {
 	};
 
 	frameWithKey.paths.push(newPath);
-	this.data_ = state;
 	this.triggerChange();
 };
 
 
 AppStore.prototype.appendPointToFrame = function(key, point) {
-	var state = _.cloneDeep(this.data_);
-
-	var frameWithKey = _.find(state.frames, (function(frameData){
+	var frameWithKey = _.find(this.data_.frames, (function(frameData){
 		return frameData.key === key;
 	}).bind(this));
 
 	lastPath = frameWithKey.paths[frameWithKey.paths.length - 1];
 	lastPath.points.push(point);
-	this.data_ = state;
 	this.triggerChange();
 };
 
@@ -196,9 +195,7 @@ AppStore.prototype.createFrameAtCurrentTime = function(initialPoint) {
 		]
 	};
 
-	var state = _.cloneDeep(this.data_);
-	state.frames.push(newFrame);
-	this.data_ = state;
+	this.data_.frames.push(newFrame);
 	this.triggerChange();
 };
 
@@ -242,6 +239,16 @@ AppStore.prototype.generateCurrentPaths = function() {
 
 	}
 
+};
+
+
+/**
+* Private
+*/
+
+AppStore.prototype.onRevisionStoreChange = function(value) {
+	this.data_ = value;
+	this.triggerChange();
 };
 
 
