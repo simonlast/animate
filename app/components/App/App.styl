@@ -1,31 +1,31 @@
+.App
 
-.canvas-container
-	height: calc(100vh - 64px)
-	position: relative
-
-
-.canvas-container > .Paths, .canvas-container > .Canvas
-	position: absolute
-	top: 0
-	left: 0
-	right: 0
-	bottom: 0
+	.canvas-container
+		height: calc(100vh - 64px)
+		position: relative
 
 
-.canvas-container > .Paths
-	opacity: 0
-	transition: opacity 200ms ease
+		> *
+			position: absolute
+			top: 0
+			left: 0
+			right: 0
+			bottom: 0
 
 
-.canvas-container:hover > .Paths
-	opacity: 0.1
+		> .Paths
+			opacity: 0
+			transition: opacity 200ms ease
 
 
-.App.playing .canvas-container > .Paths
-	opacity: 0
+		&:hover > .Paths
+			opacity: 0.1
 
 
-.App > .timeline-container
-	display: flex
-	background-color: rgb(230, 230, 230)
+	&.playing .canvas-container > .Paths
+		opacity: 0
 
+
+	> .timeline-container
+		display: flex
+		background-color: rgb(230, 230, 230)

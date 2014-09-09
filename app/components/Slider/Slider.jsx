@@ -12,7 +12,7 @@ var Slider = React.createClass({
 
 		return (
 			<div className="Slider">
-				<div className="button box-shadow-button" style={buttonStyle}></div>
+				<div className="button" style={buttonStyle}></div>
 			</div>
 		);
 	},

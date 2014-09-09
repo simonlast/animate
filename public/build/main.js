@@ -435,7 +435,7 @@ var Slider = React.createClass({displayName: 'Slider',
 
 		return (
 			React.DOM.div({className: "Slider"}, 
-				React.DOM.div({className: "button box-shadow-button", style: buttonStyle})
+				React.DOM.div({className: "button", style: buttonStyle})
 			)
 		);
 	},
@@ -544,7 +544,7 @@ React.renderComponent(
   document.getElementById("root")
 );
 
-}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_75ae26f2.js","/")
+}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_45c9582a.js","/")
 },{"./components/App/App.jsx":1,"1YiZ5S":14,"buffer":11}],9:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var Draggable = {
