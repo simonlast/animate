@@ -10,7 +10,7 @@ var shell      = require('gulp-shell');
 var express    = require('express');
 
 
-var scriptPaths = ["./app/*.jsx", "./app/**/*.jsx"];
+var scriptPaths = ["./app/*.jsx", "./app/**/*.jsx", "./app/*.js", "./app/**/*.js"];
 var stylePaths  = ["./app/*.styl", "./app/**/*.styl"];
 var outPath     = "./public/build";
 var publicPath  = "./public";

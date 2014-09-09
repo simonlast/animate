@@ -1,5 +1,6 @@
 var Paths     = require("../Paths/Paths.jsx");
 var Draggable = require("../../mixins/Draggable.jsx");
+var AppStore  = require("../../stores/AppStore.js");
 
 
 var Canvas = React.createClass({
@@ -20,18 +21,18 @@ var Canvas = React.createClass({
 	*/
 
 	handleDragStart: function(e) {
-		this.props.onCreatePath([e.currentX, e.currentY]);
+		AppStore.createPathInCurrentFrame([e.currentX, e.currentY]);
 	},
 
 
 	handleDragMove: function(e) {
-		this.props.onAppendPath([e.currentX, e.currentY]);
+		AppStore.appendPathToCurrentFrame([e.currentX, e.currentY]);
 	},
 
 
 	handleDragEnd: function(e) {
-		this.props.onAppendPath([e.currentX, e.currentY]);
-		this.props.onFinishPath();
+		AppStore.appendPathToCurrentFrame([e.currentX, e.currentY]);
+		AppStore.finishCurrentPath();
 	}
 
 

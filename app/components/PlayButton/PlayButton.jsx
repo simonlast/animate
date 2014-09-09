@@ -1,3 +1,6 @@
+var AppStore = require("../../stores/AppStore.js");
+
+
 var classSet  = React.addons.classSet;
 
 
@@ -24,7 +27,7 @@ var PlayButton = React.createClass({
 
 	handleMouseDown: function(e) {
 		e.preventDefault();
-		this.props.onPlayStateChange(!this.props.playing);
+		AppStore.togglePlayState();
 	}
 
 });

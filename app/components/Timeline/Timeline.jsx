@@ -1,6 +1,7 @@
 var Slider       = require("../Slider/Slider.jsx");
 var FramePreview = require("../FramePreview/FramePreview.jsx");
 var PlayButton   = require("../PlayButton/PlayButton.jsx");
+var AppStore     = require("../../stores/AppStore.js");
 
 
 var Timeline = React.createClass({
@@ -32,12 +33,12 @@ var Timeline = React.createClass({
 	*/
 
 	sliderChanged: function(newValue) {
-		this.props.onCurrentFrameChange(newValue);
+		AppStore.updateFrame(newValue);
 	},
 
 
 	previewSelected: function(previewTime) {
-		this.props.onCurrentFrameChange(previewTime);
+		AppStore.updateFrame(previewTime);
 	}
 
 });
