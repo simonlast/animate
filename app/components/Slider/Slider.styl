@@ -1,11 +1,10 @@
 .Slider
-	width: 100%
-	height: 32px
-	position: relative
+	absolute-fill()
 	z-index: 2
-	background-color: rgb(210, 210, 210)
+	background-color: $button-background
 	cursor: -webkit-grab
 
+	border-radius: $button-width
 
 	&:active
 		cursor: -webkit-grabbing
@@ -13,10 +12,6 @@
 
 	.button
 		position: absolute
-		background-color: rgb(120, 120, 120)
-		height: 40px
-		width: 40px
-		margin-left: -20px
-		margin-top: -4px
-		border-radius: 100%
-		button-shadow()
+		button-style()
+		background-color: $button-foreground
+		// margin-left: -1 * ($button-width/ 2)

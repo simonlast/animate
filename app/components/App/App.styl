@@ -1,9 +1,17 @@
 .App
 
+	> .timeline-container
+		display: flex
+		box-shadow(2)
+		padding: 12px;
+
+		> *:not(:first-child)
+			margin-left: 16px
+
+
 	.canvas-container
 		height: calc(100vh - 64px)
 		position: relative
-
 
 		> *
 			position: absolute
@@ -24,8 +32,3 @@
 
 	&.playing .canvas-container > .Paths
 		opacity: 0
-
-
-	> .timeline-container
-		display: flex
-		background-color: rgb(230, 230, 230)

@@ -62,14 +62,26 @@ var Draggable = {
 
 
   _getEventDetail: function(e) {
+    var thisRect = this.getDOMNode().getBoundingClientRect();
+
   	return {
   		currentTarget: e.target,
   		startX: this.startX,
   		startY: this.startY,
-  		currentX: e.clientX,
-  		currentY: e.clientY
+  		currentX: this._offsetX(e.clientX, thisRect),
+  		currentY: this._offsetY(e.clientY, thisRect)
   	};
   },
+
+
+  _offsetX: function(x, thisRect){
+    return x - thisRect.left;
+  },
+
+
+  _offsetY: function(y, thisRect){
+    return y - thisRect.top;
+  }
 
 };
 

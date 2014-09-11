@@ -12,7 +12,7 @@ var Slider = React.createClass({
 
 		return (
 			<div className="Slider">
-				<div className="button" style={buttonStyle}></div>
+				<div className="button" style={buttonStyle} ref="button"></div>
 			</div>
 		);
 	},
@@ -42,9 +42,12 @@ var Slider = React.createClass({
 	*/
 
 	updateSlider: function(screenX) {
-		var thisRect = this.getDOMNode().getBoundingClientRect();
-		var ratio = (screenX - thisRect.left) / thisRect.width;
-		var newValue = Math.floor(ratio * this.props.max);
+		var thisRect   = this.getDOMNode().getBoundingClientRect();
+		var buttonRect = this.refs.button.getDOMNode().getBoundingClientRect();
+		var thisLeft   = thisRect.left + buttonRect.width / 2;
+		var thisWidth  = thisRect.width - buttonRect.width;
+		var ratio      = (screenX - thisLeft) / thisWidth	;
+		var newValue   = Math.floor(ratio * this.props.max);
 
 		if(newValue < 0){
 			newValue = 0;

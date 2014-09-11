@@ -39,10 +39,6 @@ var App = React.createClass({
 
 		return (
 			<div className={appClassSet}>
-				<div className="canvas-container">
-					<Paths paths={this.state.lastPaths} />
-					<Canvas paths={this.state.currentPaths} />
-					</div>
 				<div className="timeline-container">
 					<PlayButton playing={this.state.playing} />
 					<Timeline
@@ -50,6 +46,10 @@ var App = React.createClass({
 						maxFrameCount={this.state.maxFrameCount}
 						frames={this.state.frames}
 						playing={this.state.playing} />
+				</div>
+				<div className="canvas-container">
+					<Paths paths={this.state.lastPaths} />
+					<Canvas paths={this.state.currentPaths} />
 					</div>
 			</div>
 		);

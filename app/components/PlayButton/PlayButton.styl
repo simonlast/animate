@@ -1,15 +1,15 @@
 .PlayButton
-	width: 64px
-	height: 64px
+	button-style()
+	cursor: pointer
+	background-color: $button-background
 
 	flex-grow: 0
 	flex-shrink: 0
 
-	margin-right: 40px
-
-	cursor: pointer
-
-	font-size: 48px
-	text-align: center
-	padding-top: 4px
-	color: rgb(120, 120, 120)
+	> i
+		color: $button-foreground
+		font-size: 36px
+		text-align: center
+		display: block
+		margin-top: 15px
+		margin-left: 9px
