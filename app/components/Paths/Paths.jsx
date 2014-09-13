@@ -1,52 +1,63 @@
 var Paths = React.createClass({
 
 	render: function() {
-		var paths = _.map(this.props.paths, (function(pathData){
-			var d = this.dFromPointArray(pathData.points);
-
-			var pathStyle = {
-				stroke: pathData.color
-			};
-
-			if(d.length > 0){
-				return (
-					<path key={pathData.key} d={d} style={pathStyle}></path>
-				);
-			} else {
-				return null
-			}
-		}).bind(this));
-
-		paths = _.compact(paths);
-
 		return (
 			<div className="Paths">
-				<svg xmlns="http://www.w3.org/2000/svg">
-					{paths}
-				</svg>
+				<canvas ref="canvas"></canvas>
 			</div>
 		);
 	},
+
+
+	componentDidMount: function() {
+		var thisRect  = this.getDOMNode().getBoundingClientRect();
+		var canvas    = this.refs.canvas.getDOMNode();
+		canvas.width  = thisRect.width;
+		canvas.height = thisRect.height;
+
+    this.redraw();
+  },
+
+
+  componentDidUpdate: function() {
+    this.redraw();
+  },
 
 
 	/**
 	* Helpers
 	*/
 
-  dFromPointArray: function(arr){
-  	if(arr.length === 0){
-  		return ""
-  	}
+	redraw: function(){
+    var context = this.refs.canvas.getDOMNode().getContext('2d');
 
-    var d = "";
-    d += "M" + arr[0][0] + " " + arr[0][1];
+    context.clearRect(0, 0, context.canvas.width, context.canvas.height);
 
-    for(var i=1; i<arr.length; i++){
-      var curr = arr[i];
-      d += " L" + curr[0] + " " + curr[1];
-    }
-    return d;
-  }
+    _.each(this.props.paths, function(pathData){
+    	this.drawPath(context, pathData);
+    }.bind(this));
+	},
+
+
+	drawPath: function(context, pathData) {
+		if(pathData.points.length === 0){
+			return
+		}
+
+		context.beginPath();
+
+		var firstPoint = pathData.points[0]
+		context.moveTo(firstPoint[0], firstPoint[1]);
+
+		_.each(pathData.points, function(point){
+			context.lineTo(point[0], point[1])
+		});
+
+    context.lineWidth = 10;
+    context.lineCap = "round";
+	  context.strokeStyle = pathData.color;
+	  context.stroke();
+	}
 
 });
 
