@@ -39,23 +39,39 @@ var Paths = React.createClass({
 	},
 
 
+	/*
+	* Adapted from http://stackoverflow.com/questions/7054272/how-to-draw-smooth-curve-through-n-points-using-javascript-html5-canvas
+	*/
 	drawPath: function(context, pathData) {
-		if(pathData.points.length === 0){
+		var points = pathData.points;
+
+		if(points.length < 3){
 			return
 		}
 
 		context.beginPath();
 
-		var firstPoint = pathData.points[0]
-		context.moveTo(firstPoint[0], firstPoint[1]);
+		// Move to start
+		context.moveTo(points[0][0], points[0][1]);
 
-		_.each(pathData.points, function(point){
-			context.lineTo(point[0], point[1])
-		});
+		for (var i = 1; i < points.length - 2; i ++){
+			var currentPoint = points[i];
+			var nextPoint    = points[i + 1];
+			var averageX     = (currentPoint[0] + nextPoint[0]) / 2;
+			var averageY     = (currentPoint[1] + nextPoint[1]) / 2;
 
-    context.lineWidth = 10;
-    context.lineCap = "round";
-	  context.strokeStyle = pathData.color;
+			// Create quadratic curve from current to the average of the current and next.
+		  context.quadraticCurveTo(currentPoint[0], currentPoint[1], averageX, averageY);
+		}
+
+		// Create a curve to the last two points.
+		var lastPoint = points[points.length - 1];
+		var secondToLastPoint = points[points.length - 2];
+		context.quadraticCurveTo(secondToLastPoint[0], secondToLastPoint[1], lastPoint[0], lastPoint[1]);
+
+		context.lineWidth   = 10;
+		context.lineCap     = "round";
+		context.strokeStyle = pathData.color;
 	  context.stroke();
 	}
 
