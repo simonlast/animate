@@ -1,17 +1,43 @@
 .Slider
+	display: flex
 	absolute-fill()
 	z-index: 2
-	background-color: $button-background
 	cursor: -webkit-grab
 
-	border-radius: $button-width
+
+	.slider-cap
+		flex-grow: 0
+		width: ($button-width / 2)
+		height: 100%
+		z-index: 1
+
+		&::before
+			content: ""
+			position: absolute
+			width: $button-width
+			height: 100%
+			border-radius: $button-width
+			background-color: $button-background
+
+		&.right
+			&::before
+				right: 0
+
+
+	.slider-background
+		flex-grow: 1
+		background-color: $button-background
+		position: relative
+
+
+		.button
+			position: absolute
+			z-index: 2
+			button-style()
+			background-color: $button-foreground
+			margin-left: -1 * ($button-width / 2)
+
 
 	&:active
 		cursor: -webkit-grabbing
 
-
-	.button
-		position: absolute
-		button-style()
-		background-color: $button-foreground
-		// margin-left: -1 * ($button-width/ 2)

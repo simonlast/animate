@@ -12,7 +12,11 @@ var Slider = React.createClass({
 
 		return (
 			<div className="Slider">
-				<div className="button" style={buttonStyle} ref="button"></div>
+				<div className="slider-cap left"></div>
+				<div className="slider-background" ref="background">
+					<div className="button" style={buttonStyle} ref="button"></div>
+				</div>
+				<div className="slider-cap right"></div>
 			</div>
 		);
 	},
@@ -41,13 +45,12 @@ var Slider = React.createClass({
 	* Helpers
 	*/
 
-	updateSlider: function(screenX) {
-		var thisRect   = this.getDOMNode().getBoundingClientRect();
-		var buttonRect = this.refs.button.getDOMNode().getBoundingClientRect();
-		var thisLeft   = thisRect.left + buttonRect.width / 2;
-		var thisWidth  = thisRect.width - buttonRect.width;
-		var ratio      = (screenX - thisLeft) / thisWidth	;
-		var newValue   = Math.floor(ratio * this.props.max);
+	updateSlider: function(offsetX) {
+		var thisRect       = this.getDOMNode().getBoundingClientRect();
+		var backgroundRect = this.refs.background.getDOMNode().getBoundingClientRect();
+		var fixedOffsetX   = offsetX - (backgroundRect.left - thisRect.left);
+		var ratio          = fixedOffsetX / backgroundRect.width;
+		var newValue       = Math.floor(ratio * this.props.max);
 
 		if(newValue < 0){
 			newValue = 0;
