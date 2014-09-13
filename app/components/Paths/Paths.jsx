@@ -40,7 +40,7 @@ var Paths = React.createClass({
 
 
 	/*
-	* Adapted from http://stackoverflow.com/questions/7054272/how-to-draw-smooth-curve-through-n-points-using-javascript-html5-canvas
+	* Adapted from http://stackoverflow.com/a/7058606
 	*/
 	drawPath: function(context, pathData) {
 		var points = pathData.points;
