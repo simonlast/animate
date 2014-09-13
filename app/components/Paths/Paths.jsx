@@ -3,10 +3,16 @@ var Paths = React.createClass({
 	render: function() {
 		var paths = _.map(this.props.paths, (function(pathData){
 			var d = this.dFromPointArray(pathData.points);
-			return (
-				<path key={pathData.key} d={d}></path>
-			);
+			if(d.length > 0){
+				return (
+					<path key={pathData.key} d={d}></path>
+				);
+			} else {
+				return null
+			}
 		}).bind(this));
+
+		paths = _.compact(paths);
 
 		return (
 			<div className="Paths">

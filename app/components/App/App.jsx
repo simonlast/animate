@@ -2,6 +2,7 @@ var Canvas        = require("../Canvas/Canvas.jsx");
 var Timeline      = require("../Timeline/Timeline.jsx");
 var Paths         = require("../Paths/Paths.jsx");
 var PlayButton    = require("../PlayButton/PlayButton.jsx");
+var ColorPicker   = require("../ColorPicker/ColorPicker.jsx");
 var AppStore      = require("../../stores/AppStore.js");
 var RevisionStore = require("../../stores/RevisionStore.js");
 
@@ -41,6 +42,7 @@ var App = React.createClass({
 			<div className={appClassSet}>
 				<div className="timeline-container">
 					<PlayButton playing={this.state.playing} />
+					<ColorPicker />
 					<Timeline
 						currentFrame={this.state.currentFrame}
 						maxFrameCount={this.state.maxFrameCount}
@@ -60,27 +62,32 @@ var App = React.createClass({
 	* Events
 	*/
 
-	togglePlayState: function(newValue) {
+	togglePlayState: function(e) {
+		e.preventDefault();
 		AppStore.togglePlayState();
 	},
 
 
-	advanceFrame: function() {
+	advanceFrame: function(e) {
+		e.preventDefault();
 		AppStore.advanceFrame();
 	},
 
 
-	retractFrame: function() {
+	retractFrame: function(e) {
+		e.preventDefault();
 		AppStore.retractFrame();
 	},
 
 
-	handleUndo: function() {
+	handleUndo: function(e) {
+		e.preventDefault();
 		RevisionStore.undo();
 	},
 
 
-	handleRedo: function() {
+	handleRedo: function(e) {
+		e.preventDefault();
 		RevisionStore.redo();
 	}
 
