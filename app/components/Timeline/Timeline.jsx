@@ -33,12 +33,12 @@ var Timeline = React.createClass({
 	*/
 
 	sliderChanged: function(newValue) {
-		AppStore.updateFrame(newValue);
+		AppStore.setCurrentFrame(newValue);
 	},
 
 
 	previewSelected: function(previewTime) {
-		AppStore.updateFrame(previewTime);
+		AppStore.setCurrentFrame(previewTime);
 	}
 
 });

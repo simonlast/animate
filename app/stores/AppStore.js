@@ -95,8 +95,9 @@ AppStore.prototype.appendPathToCurrentFrame = function(point) {
 };
 
 
-AppStore.prototype.updateFrame = function(newValue) {
+AppStore.prototype.setCurrentFrame = function(newValue) {
 	this.data_.currentFrame = newValue;
+	this.data_.playing = false;
 	this.triggerChange();
 };
 
@@ -141,6 +142,7 @@ AppStore.prototype.advanceFrame = function() {
 	}
 
 	this.data_.currentFrame = newFrame;
+	this.data_.playing = false;
 	this.triggerChange();
 };
 
@@ -153,6 +155,7 @@ AppStore.prototype.retractFrame = function() {
 	}
 
 	this.data_.currentFrame = newFrame;
+	this.data_.playing = false;
 	this.triggerChange();
 };
 
