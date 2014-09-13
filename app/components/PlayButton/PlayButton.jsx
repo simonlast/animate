@@ -14,7 +14,7 @@ var PlayButton = React.createClass({
 		});
 
 		return (
-			<div className="PlayButton" onMouseDown={this.handleMouseDown}>
+			<div className="PlayButton" onMouseDown={this.handleMouseDown} onTouchStart={this.handleMouseDown}>
 				<i className={iClassSet}></i>
 			</div>
 		);

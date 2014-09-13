@@ -6,22 +6,38 @@ var Draggable = {
   	this.startY = null;
 
   	var domNode = this.getDOMNode();
-  	domNode.addEventListener("mousedown", this.draggableMouseDown);
-  	document.addEventListener("mousemove", this.draggableMouseMove);
-  	document.addEventListener("mouseup", this.draggableMouseUp);
+
+    if(this._isTouchBrowser()){
+      domNode.addEventListener("touchstart", this.draggableTouchStart);
+      document.addEventListener("touchmove", this.draggableTouchMove);
+      document.addEventListener("touchend", this.draggableTouchEnd);
+    }
+    else {
+      domNode.addEventListener("mousedown", this.draggableMouseDown);
+      document.addEventListener("mousemove", this.draggableMouseMove);
+      document.addEventListener("mouseup", this.draggableMouseUp);
+    }
   },
 
 
   componentWillUnmount: function() {
     var domNode = this.getDOMNode();
-    domNode.removeEventListener("mousedown", this.draggableMouseDown);
-    document.removeEventListener("mousemove", this.draggableMouseMove);
-    document.removeEventListener("mouseup", this.draggableMouseUp);
+
+    if(this._isTouchBrowser()){
+      domNode.removeEventListener("touchstart", this.draggableTouchStart);
+      document.removeEventListener("touchmove", this.draggableTouchMove);
+      document.removeEventListener("touchend", this.draggableTouchEnd);
+    }
+    else {
+      domNode.removeEventListener("mousedown", this.draggableMouseDown);
+      document.removeEventListener("mousemove", this.draggableMouseMove);
+      document.removeEventListener("mouseup", this.draggableMouseUp);
+    }
   },
 
 
   /**
-  * Events
+  * Mouse Events
   */
 
   draggableMouseDown: function(e) {
@@ -48,10 +64,11 @@ var Draggable = {
 
 
   draggableMouseUp: function(e) {
-  	e.preventDefault();
   	if(this.dragging){
+      e.preventDefault();
+
       if(_.isFunction(this.handleDragEnd)){
-        this.handleDragEnd(this._getEventDetail(e));
+        this.handleDragEnd(null);
       }
 
 	  	this.dragging = false;
@@ -61,11 +78,65 @@ var Draggable = {
   },
 
 
+  /**
+  * Touch Events
+  */
+
+  draggableTouchStart: function(e) {
+    e.preventDefault();
+
+    var firstTargetTouch = e.targetTouches[0];
+
+    this.startX          = firstTargetTouch.clientX;
+    this.startY          = firstTargetTouch.clientY;
+    this.touchIdentifier = firstTargetTouch.identifier;
+    this.dragging        = true;
+
+    if(_.isFunction(this.handleDragStart)){
+      this.handleDragStart(this._getEventDetail(firstTargetTouch));
+    }
+  },
+
+
+  draggableTouchMove: function(e) {
+    if (this.dragging) {
+      e.preventDefault();
+
+      var touchWithIdentifier = _.find(e.touches, function(touch){
+        return touch.identifier === this.touchIdentifier;
+      }.bind(this));
+
+      if(touchWithIdentifier && _.isFunction(this.handleDragMove)){
+        this.handleDragMove(this._getEventDetail(touchWithIdentifier));
+      }
+    }
+  },
+
+
+  draggableTouchEnd: function(e) {
+    if (this.dragging) {
+      e.preventDefault();
+
+      if(_.isFunction(this.handleDragEnd)){
+        this.handleDragEnd(null);
+      }
+
+      this.dragging        = false;
+      this.startX          = null;
+      this.startY          = null;
+      this.touchIdentifier = null;
+    }
+  },
+
+
+  /**
+  * Helpers
+  */
+
   _getEventDetail: function(e) {
     var thisRect = this.getDOMNode().getBoundingClientRect();
 
   	return {
-  		currentTarget: e.target,
   		startX: this.startX,
   		startY: this.startY,
   		currentX: this._offsetX(e.clientX, thisRect),
@@ -81,6 +152,11 @@ var Draggable = {
 
   _offsetY: function(y, thisRect){
     return y - thisRect.top;
+  },
+
+
+  _isTouchBrowser: function(){
+    return ("ontouchstart" in window)
   }
 
 };

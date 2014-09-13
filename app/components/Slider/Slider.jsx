@@ -37,7 +37,6 @@ var Slider = React.createClass({
 
 
 	handleDragEnd: function(e) {
-		this.updateSlider(e.currentX);
 	},
 
 

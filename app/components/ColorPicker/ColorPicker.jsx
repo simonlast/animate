@@ -30,7 +30,7 @@ var ColorPicker = React.createClass({
 	},
 
 
-	handleDragEnd: function(e) {
+	handleDragEnd: function() {
 	}
 
 

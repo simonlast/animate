@@ -30,8 +30,7 @@ var Canvas = React.createClass({
 	},
 
 
-	handleDragEnd: function(e) {
-		AppStore.appendPathToCurrentFrame([e.currentX, e.currentY]);
+	handleDragEnd: function() {
 		AppStore.finishCurrentPath();
 	}
 
