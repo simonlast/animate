@@ -1,6 +1,9 @@
 .App
 
 	> .timeline-container
+		position: relative
+		z-index: 2
+
 		display: flex
 		box-shadow(2)
 		padding: 12px;
@@ -12,6 +15,7 @@
 	.canvas-container
 		height: 100vh
 		position: relative
+		z-index: 1
 
 		> *
 			position: absolute

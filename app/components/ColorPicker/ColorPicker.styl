@@ -1,6 +1,42 @@
+$color-picker-padding = 10px
+
 .ColorPicker
 	display: block
+	position: relative
 
 	.current-color
 		button-style()
 		cursor: pointer
+
+
+	.color-options
+		position: absolute
+		top: -1 * $color-picker-padding
+		left: -1 * $color-picker-padding
+
+		opacity: 0
+		pointer-events: none
+
+		background-color: $button-background
+		border-radius: $button-width + $color-picker-padding
+		padding: $color-picker-padding
+
+		.color-option
+			button-style()
+			transition: box-shadow 200ms ease, transform 200ms ease
+
+			cursor: pointer
+
+			&:not(:first-child)
+				margin-top: 12px
+
+			&.active
+				box-shadow(3)
+				transform: scale(1.15)
+
+
+	&.dragging
+		.color-options
+			opacity: 1
+			pointer-events: auto
+

@@ -46,6 +46,8 @@ var Draggable = {
   	this.startY = e.clientY;
   	this.dragging = true;
 
+    this.setState({dragging: true});
+
     if(_.isFunction(this.handleDragStart)){
       this.handleDragStart(this._getEventDetail(e));
     }
@@ -67,6 +69,8 @@ var Draggable = {
   	if(this.dragging){
       e.preventDefault();
 
+      this.setState({dragging: false});
+
       if(_.isFunction(this.handleDragEnd)){
         this.handleDragEnd(null);
       }
@@ -74,6 +78,7 @@ var Draggable = {
 	  	this.dragging = false;
 	  	this.startX = null;
 	  	this.startY = null;
+
   	}
   },
 
@@ -137,10 +142,11 @@ var Draggable = {
     var thisRect = this.getDOMNode().getBoundingClientRect();
 
   	return {
-  		startX: this.startX,
-  		startY: this.startY,
-  		currentX: this._offsetX(e.clientX, thisRect),
-  		currentY: this._offsetY(e.clientY, thisRect)
+      currentTarget: e.target,
+      startX: this.startX,
+      startY: this.startY,
+      currentX: this._offsetX(e.clientX, thisRect),
+      currentY: this._offsetY(e.clientY, thisRect)
   	};
   },
 
