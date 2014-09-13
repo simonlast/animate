@@ -3,9 +3,14 @@ var Paths = React.createClass({
 	render: function() {
 		var paths = _.map(this.props.paths, (function(pathData){
 			var d = this.dFromPointArray(pathData.points);
+
+			var pathStyle = {
+				stroke: pathData.color
+			};
+
 			if(d.length > 0){
 				return (
-					<path key={pathData.key} d={d}></path>
+					<path key={pathData.key} d={d} style={pathStyle}></path>
 				);
 			} else {
 				return null

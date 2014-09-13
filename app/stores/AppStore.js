@@ -5,12 +5,23 @@ var PLAY_INTERVAL   = 100;
 var	MAX_FRAME_COUNT = 100;
 
 
+var defaultColors = [
+	"rgb(85,98,112)",
+	"rgb(78,205,196)",
+	"rgb(199,244,100)",
+	"rgb(255,107,107)",
+	"rgb(196,77,88)"
+];
+
+
 var AppStore = function(){
 	this.events_ = new EventEmitter();
 
 	this.data_ = {
 		frames: [],
 		currentFrame: 0,
+		colorOptions: defaultColors,
+		currentColor: defaultColors[0],
 		playing: false,
 		maxFrameCount: MAX_FRAME_COUNT
 	};
@@ -50,6 +61,8 @@ AppStore.prototype.getValue = function(callback) {
 		currentFrame: this.data_.currentFrame,
 		playing: this.data_.playing,
 		maxFrameCount: this.data_.maxFrameCount,
+		currentColor: this.data_.currentColor,
+		colorOptions: this.data_.colorOptions,
 		currentPaths: this.generateCurrentPaths()
 	};
 
@@ -98,6 +111,12 @@ AppStore.prototype.appendPathToCurrentFrame = function(point) {
 AppStore.prototype.setCurrentFrame = function(newValue) {
 	this.data_.currentFrame = newValue;
 	this.data_.playing = false;
+	this.triggerChange();
+};
+
+
+AppStore.prototype.setCurrentColor = function(newValue) {
+	this.data_.currentColor = newValue;
 	this.triggerChange();
 };
 
@@ -167,7 +186,8 @@ AppStore.prototype.createPathInFrame = function(key, point) {
 
 	var newPath = {
 		key: uuid.v4(),
-		points: [point]
+		points: [point],
+		color: this.data_.currentColor
 	};
 
 	frameWithKey.paths.push(newPath);
@@ -193,7 +213,8 @@ AppStore.prototype.createFrameAtCurrentTime = function(initialPoint) {
 		paths: [
 			{
 				key: uuid.v4(),
-				points: [initialPoint]
+				points: [initialPoint],
+				color: this.data_.currentColor
 			}
 		]
 	};
@@ -236,7 +257,8 @@ AppStore.prototype.generateCurrentPaths = function() {
 		return [
 			{
 				key: uuid.v4(),
-				points: []
+				points: [],
+				color: this.data_.currentColor
 			}
 		];
 

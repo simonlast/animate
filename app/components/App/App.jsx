@@ -42,7 +42,9 @@ var App = React.createClass({
 			<div className={appClassSet}>
 				<div className="timeline-container">
 					<PlayButton playing={this.state.playing} />
-					<ColorPicker />
+					<ColorPicker
+						currentColor={this.state.currentColor}
+						colorOptions={this.state.colorOptions} />
 					<Timeline
 						currentFrame={this.state.currentFrame}
 						maxFrameCount={this.state.maxFrameCount}
