@@ -97,6 +97,8 @@ var Draggable = {
     this.touchIdentifier = firstTargetTouch.identifier;
     this.dragging        = true;
 
+    this.setState({dragging: true});
+
     if(_.isFunction(this.handleDragStart)){
       this.handleDragStart(this._getEventDetail(firstTargetTouch));
     }
@@ -112,7 +114,18 @@ var Draggable = {
       }.bind(this));
 
       if(touchWithIdentifier && _.isFunction(this.handleDragMove)){
-        this.handleDragMove(this._getEventDetail(touchWithIdentifier));
+        var elementOverTouch = document.elementFromPoint(
+          touchWithIdentifier.clientX,
+          touchWithIdentifier.clientY
+        );
+
+        var detail = {
+          clientX: touchWithIdentifier.clientX,
+          clientY: touchWithIdentifier.clientY,
+          target: elementOverTouch
+        };
+
+        this.handleDragMove(this._getEventDetail(detail));
       }
     }
   },
@@ -121,6 +134,8 @@ var Draggable = {
   draggableTouchEnd: function(e) {
     if (this.dragging) {
       e.preventDefault();
+
+      this.setState({dragging: false});
 
       if(_.isFunction(this.handleDragEnd)){
         this.handleDragEnd(null);
