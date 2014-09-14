@@ -6,7 +6,7 @@ var ColorPicker   = require("../ColorPicker/ColorPicker.jsx");
 var AppStore      = require("../../stores/AppStore.js");
 var RevisionStore = require("../../stores/RevisionStore.js");
 
-var classSet   = React.addons.classSet;
+var classSet      = React.addons.classSet;
 
 
 var App = React.createClass({

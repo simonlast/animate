@@ -1,20 +1,33 @@
 var Draggable = require("../../mixins/Draggable.jsx");
+var classSet  = React.addons.classSet;
 
 
 var Slider = React.createClass({
 
 	mixins: [Draggable],
 
+	getInitialState: function() {
+		return {
+			dragging: false
+		};
+	},
+
+
 	render: function() {
 		var buttonStyle = {
 			left: ((this.props.current / this.props.max) * 100) + "%"
 		};
 
+		var buttonClassSet = classSet({
+			"button": true,
+			"active": this.state.dragging
+		});
+
 		return (
 			<div className="Slider">
 				<div className="slider-cap left"></div>
 				<div className="slider-background" ref="background">
-					<div className="button" style={buttonStyle} ref="button"></div>
+					<div className={buttonClassSet} style={buttonStyle} ref="button"></div>
 				</div>
 				<div className="slider-cap right"></div>
 			</div>
