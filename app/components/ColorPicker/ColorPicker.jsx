@@ -43,10 +43,10 @@ var ColorPicker = React.createClass({
 
 		return (
 			<div className={classes}>
-				<div className="current-color" style={currentColorStyle}></div>
 				<div className="color-options">
 					{colorOptions}
 				</div>
+				<div className="current-color" style={currentColorStyle}></div>
 			</div>
 		);
 	},

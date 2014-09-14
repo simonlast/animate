@@ -46,10 +46,13 @@ button-style()
 
 button-default-state()
 	transition: box-shadow $default-animation-duration ease, transform $default-animation-duration ease
+	box-shadow(0)
+	transform: scale(1)
 
 
 button-hover-state()
 	box-shadow(1)
+	transform: scale(1)
 
 
 button-active-state()

@@ -4,6 +4,7 @@ $color-picker-padding = 10px
 	display: block
 	position: relative
 
+
 	.current-color
 		button-style()
 		cursor: pointer
@@ -14,12 +15,15 @@ $color-picker-padding = 10px
 		top: -1 * $color-picker-padding
 		left: -1 * $color-picker-padding
 
-		opacity: 0
-		pointer-events: none
-
 		background-color: $button-background
 		border-radius: $button-width + $color-picker-padding
+
+		// Leave room at top for current color
 		padding: $color-picker-padding
+		padding-top: $button-width + ($color-picker-padding * 2) + 4px
+
+		transition: opacity $default-animation-duration ease, transform $default-animation-duration ease
+
 
 		.color-option
 			button-style()
@@ -33,8 +37,15 @@ $color-picker-padding = 10px
 				button-active-state()
 
 
+	&:not(.dragging)
+		.color-options
+			opacity: 0
+			pointer-events: none
+			transform: scale(0.9) translateY(-20px)
+
+
 	&.dragging
 		.color-options
 			opacity: 1
 			pointer-events: auto
-
+			transform: scale(1) translateY(0px)
