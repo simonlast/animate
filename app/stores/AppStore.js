@@ -5,6 +5,11 @@ var PLAY_INTERVAL   = 100;
 var	MAX_FRAME_COUNT = 100;
 
 
+var STROKE_MIN_WIDTH     = 2;
+var STROKE_MAX_WIDTH     = 32;
+var STROKE_DEFAULT_WIDTH = 12;
+
+
 var defaultColors = [
 	"rgb(85,98,112)",
 	"rgb(78,205,196)",
@@ -23,7 +28,10 @@ var AppStore = function(){
 		colorOptions: defaultColors,
 		currentColor: defaultColors[0],
 		playing: false,
-		maxFrameCount: MAX_FRAME_COUNT
+		maxFrameCount: MAX_FRAME_COUNT,
+		minWidth: STROKE_MIN_WIDTH,
+		maxWidth: STROKE_MAX_WIDTH,
+		currentWidth: STROKE_DEFAULT_WIDTH
 	};
 
 	RevisionStore.checkpoint(this.data_);
@@ -63,6 +71,9 @@ AppStore.prototype.getValue = function(callback) {
 		maxFrameCount: this.data_.maxFrameCount,
 		currentColor: this.data_.currentColor,
 		colorOptions: this.data_.colorOptions,
+		minWidth: this.data_.minWidth,
+		maxWidth: this.data_.maxWidth,
+		currentWidth: this.data_.currentWidth,
 		currentPaths: this.generateCurrentPaths()
 	};
 
@@ -117,6 +128,12 @@ AppStore.prototype.setCurrentFrame = function(newValue) {
 
 AppStore.prototype.setCurrentColor = function(newValue) {
 	this.data_.currentColor = newValue;
+	this.triggerChange();
+};
+
+
+AppStore.prototype.setCurrentWidth = function(newValue) {
+	this.data_.currentWidth = newValue;
 	this.triggerChange();
 };
 
@@ -191,7 +208,8 @@ AppStore.prototype.createPathInFrame = function(key, point) {
 	var newPath = {
 		key: uuid.v4(),
 		points: [point],
-		color: this.data_.currentColor
+		color: this.data_.currentColor,
+		width: this.data_.currentWidth
 	};
 
 	frameWithKey.paths.push(newPath);
@@ -218,7 +236,8 @@ AppStore.prototype.createFrameAtCurrentTime = function(initialPoint) {
 			{
 				key: uuid.v4(),
 				points: [initialPoint],
-				color: this.data_.currentColor
+				color: this.data_.currentColor,
+				width: this.data_.currentWidth
 			}
 		]
 	};
@@ -262,7 +281,8 @@ AppStore.prototype.generateCurrentPaths = function() {
 			{
 				key: uuid.v4(),
 				points: [],
-				color: this.data_.currentColor
+				color: this.data_.currentColor,
+				width: this.data_.currentWidth
 			}
 		];
 

@@ -1,0 +1,59 @@
+$width-slider-padding = 10px
+
+.WidthPicker
+	display: block
+	position: relative
+	cursor: pointer
+
+
+	.current-width
+		button-style()
+		position: relative
+
+		background-color: $button-background
+
+		.current-width-inner
+			position: absolute
+			background-color: $button-foreground
+			border-radius: 100%
+
+
+	.width-slider
+		position: absolute
+		top: -1 * $width-slider-padding
+		left: -1 * $width-slider-padding
+
+		background-color: $button-background
+		border-radius: $button-width + $width-slider-padding
+
+		// Leave room at top for current width
+		padding: $width-slider-padding
+		padding-top: $button-width + ($width-slider-padding * 2) + 4px
+
+		transition: opacity $default-animation-duration ease, transform $default-animation-duration ease
+
+
+		.slider-background
+			height: 300px
+			position: relative
+			width: $button-width
+
+			.slider-button
+				button-style()
+				background-color: $button-foreground
+				position: absolute
+				margin-top: -1 * ($button-width / 2)
+
+
+	&:not(.dragging)
+		.width-slider
+			opacity: 0
+			pointer-events: none
+			transform: scale(0.9) translateY(-20px)
+
+
+	&.dragging
+		.width-slider
+			opacity: 1
+			pointer-events: auto
+			transform: scale(1) translateY(0px)

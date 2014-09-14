@@ -3,6 +3,7 @@ var Timeline      = require("../Timeline/Timeline.jsx");
 var Paths         = require("../Paths/Paths.jsx");
 var PlayButton    = require("../PlayButton/PlayButton.jsx");
 var ColorPicker   = require("../ColorPicker/ColorPicker.jsx");
+var WidthPicker   = require("../WidthPicker/WidthPicker.jsx");
 var AppStore      = require("../../stores/AppStore.js");
 var RevisionStore = require("../../stores/RevisionStore.js");
 
@@ -45,6 +46,10 @@ var App = React.createClass({
 					<ColorPicker
 						currentColor={this.state.currentColor}
 						colorOptions={this.state.colorOptions} />
+					<WidthPicker
+						currentWidth={this.state.currentWidth}
+						minWidth={this.state.minWidth}
+						maxWidth={this.state.maxWidth} />
 					<Timeline
 						currentFrame={this.state.currentFrame}
 						maxFrameCount={this.state.maxFrameCount}

@@ -29,7 +29,7 @@ var ColorPicker = React.createClass({
 			var colorOptionClasses = classSet({
 				"color-option": true,
 				"active": this.state.activeColor === color
-			})
+			});
 
 			return (
 				<div className={colorOptionClasses} data-color={color} key={color} style={colorOptionStyle}></div>

@@ -69,7 +69,7 @@ var Paths = React.createClass({
 		var secondToLastPoint = points[points.length - 2];
 		context.quadraticCurveTo(secondToLastPoint[0], secondToLastPoint[1], lastPoint[0], lastPoint[1]);
 
-		context.lineWidth   = 10;
+		context.lineWidth   = pathData.width;
 		context.lineCap     = "round";
 		context.strokeStyle = pathData.color;
 	  context.stroke();
