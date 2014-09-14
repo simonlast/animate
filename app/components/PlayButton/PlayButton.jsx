@@ -7,6 +7,11 @@ var classSet  = React.addons.classSet;
 var PlayButton = React.createClass({
 
 	render: function() {
+		var buttonClassSet = classSet({
+			"PlayButton": true,
+			"playing": this.props.playing
+		});
+
 		var iClassSet = classSet({
 			"fa": true,
 			"fa-play": !this.props.playing,
@@ -14,7 +19,7 @@ var PlayButton = React.createClass({
 		});
 
 		return (
-			<div className="PlayButton" onMouseDown={this.handleMouseDown} onTouchStart={this.handleMouseDown}>
+			<div className={buttonClassSet} onMouseDown={this.handleMouseDown} onTouchStart={this.handleMouseDown}>
 				<i className={iClassSet}></i>
 			</div>
 		);

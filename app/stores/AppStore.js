@@ -148,6 +148,10 @@ AppStore.prototype.advanceFrameWithGuard = function(){
 		}
 	}
 
+	if(newFrame > this.data_.maxFrameCount){
+		newFrame = 0;
+	}
+
 	this.data_.currentFrame = newFrame;
 	this.triggerChange();
 };

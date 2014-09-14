@@ -23,16 +23,14 @@ $color-picker-padding = 10px
 
 		.color-option
 			button-style()
-			transition: box-shadow 200ms ease, transform 200ms ease
-
+			box-shadow(1)
 			cursor: pointer
 
 			&:not(:first-child)
 				margin-top: 12px
 
 			&.active
-				box-shadow(3)
-				transform: scale(1.15)
+				button-active-state()
 
 
 	&.dragging
