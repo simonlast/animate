@@ -1,0 +1,577 @@
+.App > .timeline-container {
+  position: relative;
+  z-index: 2;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: box;
+  display: flex;
+  box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 2px 3px rgba(0,0,0,0.15);
+  padding: 12px;
+}
+.App > .timeline-container > *:not(:first-child) {
+  margin-left: 22px;
+}
+.App .canvas-container {
+  height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+.App .canvas-container > * {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.App .canvas-container > .Paths {
+  opacity: 0.1;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=10)";
+  filter: alpha(opacity=10);
+  -webkit-transition: opacity 200ms ease;
+  -moz-transition: opacity 200ms ease;
+  -o-transition: opacity 200ms ease;
+  -ms-transition: opacity 200ms ease;
+  transition: opacity 200ms ease;
+}
+.App.playing .canvas-container > .Paths {
+  opacity: 0;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  filter: alpha(opacity=0);
+}
+.ClearButton {
+  width: 64px;
+  height: 64px;
+  -webkit-border-radius: 100%;
+  border-radius: 100%;
+  -webkit-transition: box-shadow 200ms ease, -webkit-transform 200ms ease;
+  -moz-transition: box-shadow 200ms ease, -moz-transform 200ms ease;
+  -o-transition: box-shadow 200ms ease, -o-transform 200ms ease;
+  -ms-transition: box-shadow 200ms ease, -ms-transform 200ms ease;
+  transition: box-shadow 200ms ease, transform 200ms ease;
+  box-shadow: 0 0 1px rgba(0,0,0,0), 0 1px 2px rgba(0,0,0,0);
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -o-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+  cursor: pointer;
+  background-color: #f0f0f0;
+  -webkit-box-flex: 0;
+  -moz-box-flex: 0;
+  -o-box-flex: 0;
+  -ms-box-flex: 0;
+  box-flex: 0;
+  -webkit-flex-grow: 0;
+  flex-grow: 0;
+  -webkit-flex-shrink: 0;
+  flex-shrink: 0;
+}
+.ClearButton:hover {
+  box-shadow: 0 0 1px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.15);
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -o-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+}
+.ClearButton:active,
+.ClearButton.active {
+  box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 2px 3px rgba(0,0,0,0.15);
+  -webkit-transform: scale(1.1);
+  -moz-transform: scale(1.1);
+  -o-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  transform: scale(1.1);
+}
+.ClearButton > i {
+  display: block;
+  text-align: center;
+  color: #606060;
+  font-size: 36px;
+  margin-top: 15px;
+  margin-left: 2px;
+  -webkit-transition: -webkit-transform 200ms ease;
+  -moz-transition: -moz-transform 200ms ease;
+  -o-transition: -o-transform 200ms ease;
+  -ms-transition: -ms-transform 200ms ease;
+  transition: transform 200ms ease;
+}
+.ClearButton:hover > i {
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.ColorPicker {
+  display: block;
+  position: relative;
+}
+.ColorPicker .current-color {
+  width: 64px;
+  height: 64px;
+  -webkit-border-radius: 100%;
+  border-radius: 100%;
+  -webkit-transition: box-shadow 200ms ease, -webkit-transform 200ms ease;
+  -moz-transition: box-shadow 200ms ease, -moz-transform 200ms ease;
+  -o-transition: box-shadow 200ms ease, -o-transform 200ms ease;
+  -ms-transition: box-shadow 200ms ease, -ms-transform 200ms ease;
+  transition: box-shadow 200ms ease, transform 200ms ease;
+  box-shadow: 0 0 1px rgba(0,0,0,0), 0 1px 2px rgba(0,0,0,0);
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -o-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+  cursor: pointer;
+  -webkit-transition: box-shadow 200ms ease, -webkit-transform 200ms ease, background 200ms ease;
+  -moz-transition: box-shadow 200ms ease, -moz-transform 200ms ease, background 200ms ease;
+  -o-transition: box-shadow 200ms ease, -o-transform 200ms ease, background 200ms ease;
+  -ms-transition: box-shadow 200ms ease, -ms-transform 200ms ease, background 200ms ease;
+  transition: box-shadow 200ms ease, transform 200ms ease, background 200ms ease;
+}
+.ColorPicker .current-color:hover {
+  box-shadow: 0 0 1px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.15);
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -o-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+}
+.ColorPicker .current-color:active,
+.ColorPicker .current-color.active {
+  box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 2px 3px rgba(0,0,0,0.15);
+  -webkit-transform: scale(1.1);
+  -moz-transform: scale(1.1);
+  -o-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  transform: scale(1.1);
+}
+.ColorPicker .color-options {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  background-color: #f0f0f0;
+  -webkit-border-radius: 74px;
+  border-radius: 74px;
+  padding: 10px;
+  padding-top: 88px;
+  -webkit-transition: opacity 200ms ease, -webkit-transform 200ms ease;
+  -moz-transition: opacity 200ms ease, -moz-transform 200ms ease;
+  -o-transition: opacity 200ms ease, -o-transform 200ms ease;
+  -ms-transition: opacity 200ms ease, -ms-transform 200ms ease;
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+.ColorPicker .color-options .color-option {
+  width: 64px;
+  height: 64px;
+  -webkit-border-radius: 100%;
+  border-radius: 100%;
+  -webkit-transition: box-shadow 200ms ease, -webkit-transform 200ms ease;
+  -moz-transition: box-shadow 200ms ease, -moz-transform 200ms ease;
+  -o-transition: box-shadow 200ms ease, -o-transform 200ms ease;
+  -ms-transition: box-shadow 200ms ease, -ms-transform 200ms ease;
+  transition: box-shadow 200ms ease, transform 200ms ease;
+  box-shadow: 0 0 1px rgba(0,0,0,0), 0 1px 2px rgba(0,0,0,0);
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -o-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+  box-shadow: 0 0 1px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.15);
+  cursor: pointer;
+}
+.ColorPicker .color-options .color-option:hover {
+  box-shadow: 0 0 1px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.15);
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -o-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+}
+.ColorPicker .color-options .color-option:active,
+.ColorPicker .color-options .color-option.active {
+  box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 2px 3px rgba(0,0,0,0.15);
+  -webkit-transform: scale(1.1);
+  -moz-transform: scale(1.1);
+  -o-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  transform: scale(1.1);
+}
+.ColorPicker .color-options .color-option:not(:first-child) {
+  margin-top: 12px;
+}
+.ColorPicker .color-options .color-option.active {
+  box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 2px 3px rgba(0,0,0,0.15);
+  -webkit-transform: scale(1.1);
+  -moz-transform: scale(1.1);
+  -o-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  transform: scale(1.1);
+}
+.ColorPicker:not(.dragging) .color-options {
+  opacity: 0;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  filter: alpha(opacity=0);
+  pointer-events: none;
+  -webkit-transform: scale(0.9) translateY(-20px);
+  -moz-transform: scale(0.9) translateY(-20px);
+  -o-transform: scale(0.9) translateY(-20px);
+  -ms-transform: scale(0.9) translateY(-20px);
+  transform: scale(0.9) translateY(-20px);
+}
+.ColorPicker.dragging .current-color {
+  box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 2px 3px rgba(0,0,0,0.15);
+  -webkit-transform: scale(1.1);
+  -moz-transform: scale(1.1);
+  -o-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  transform: scale(1.1);
+}
+.ColorPicker.dragging .color-options {
+  opacity: 1;
+  -ms-filter: none;
+  filter: none;
+  pointer-events: auto;
+  -webkit-transform: scale(1) translateY(0px);
+  -moz-transform: scale(1) translateY(0px);
+  -o-transform: scale(1) translateY(0px);
+  -ms-transform: scale(1) translateY(0px);
+  transform: scale(1) translateY(0px);
+}
+.FramePreview {
+  position: absolute;
+  cursor: pointer;
+  display: none;
+  width: 12px;
+  height: 64px;
+  margin-left: -6px;
+  background-color: #d2d2d2;
+}
+.Paths {
+  height: 100%;
+  cursor: crosshair;
+}
+.PlayButton {
+  width: 64px;
+  height: 64px;
+  -webkit-border-radius: 100%;
+  border-radius: 100%;
+  -webkit-transition: box-shadow 200ms ease, -webkit-transform 200ms ease;
+  -moz-transition: box-shadow 200ms ease, -moz-transform 200ms ease;
+  -o-transition: box-shadow 200ms ease, -o-transform 200ms ease;
+  -ms-transition: box-shadow 200ms ease, -ms-transform 200ms ease;
+  transition: box-shadow 200ms ease, transform 200ms ease;
+  box-shadow: 0 0 1px rgba(0,0,0,0), 0 1px 2px rgba(0,0,0,0);
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -o-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+  cursor: pointer;
+  background-color: #f0f0f0;
+  -webkit-box-flex: 0;
+  -moz-box-flex: 0;
+  -o-box-flex: 0;
+  -ms-box-flex: 0;
+  box-flex: 0;
+  -webkit-flex-grow: 0;
+  flex-grow: 0;
+  -webkit-flex-shrink: 0;
+  flex-shrink: 0;
+}
+.PlayButton:hover {
+  box-shadow: 0 0 1px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.15);
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -o-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+}
+.PlayButton:active,
+.PlayButton.active {
+  box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 2px 3px rgba(0,0,0,0.15);
+  -webkit-transform: scale(1.1);
+  -moz-transform: scale(1.1);
+  -o-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  transform: scale(1.1);
+}
+.PlayButton.playing {
+  box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 2px 3px rgba(0,0,0,0.15);
+  -webkit-transform: scale(1.1);
+  -moz-transform: scale(1.1);
+  -o-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  transform: scale(1.1);
+}
+.PlayButton > i {
+  color: #606060;
+  font-size: 36px;
+  text-align: center;
+  display: block;
+}
+.PlayButton > i.fa-play {
+  margin-top: 15px;
+  margin-left: 7px;
+}
+.PlayButton > i.fa-pause {
+  margin-top: 16px;
+  margin-left: 0px;
+}
+.Slider {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: box;
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  cursor: -webkit-grab;
+}
+.Slider .slider-cap {
+  -webkit-box-flex: 0;
+  -moz-box-flex: 0;
+  -o-box-flex: 0;
+  -ms-box-flex: 0;
+  box-flex: 0;
+  -webkit-flex-grow: 0;
+  flex-grow: 0;
+  width: 32px;
+  height: 100%;
+  z-index: 1;
+}
+.Slider .slider-cap::before {
+  content: "";
+  position: absolute;
+  width: 64px;
+  height: 100%;
+  -webkit-border-radius: 64px;
+  border-radius: 64px;
+  background-color: #f0f0f0;
+}
+.Slider .slider-cap.right::before {
+  right: 0;
+}
+.Slider .slider-background {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -o-box-flex: 1;
+  -ms-box-flex: 1;
+  box-flex: 1;
+  -webkit-flex-grow: 1;
+  flex-grow: 1;
+  background-color: #f0f0f0;
+  position: relative;
+}
+.Slider .slider-background .button {
+  position: absolute;
+  z-index: 2;
+  width: 64px;
+  height: 64px;
+  -webkit-border-radius: 100%;
+  border-radius: 100%;
+  -webkit-transition: box-shadow 200ms ease, -webkit-transform 200ms ease;
+  -moz-transition: box-shadow 200ms ease, -moz-transform 200ms ease;
+  -o-transition: box-shadow 200ms ease, -o-transform 200ms ease;
+  -ms-transition: box-shadow 200ms ease, -ms-transform 200ms ease;
+  transition: box-shadow 200ms ease, transform 200ms ease;
+  box-shadow: 0 0 1px rgba(0,0,0,0), 0 1px 2px rgba(0,0,0,0);
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -o-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+  background-color: #606060;
+  margin-left: -32px;
+}
+.Slider .slider-background .button:hover {
+  box-shadow: 0 0 1px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.15);
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -o-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+}
+.Slider .slider-background .button:active,
+.Slider .slider-background .button.active {
+  box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 2px 3px rgba(0,0,0,0.15);
+  -webkit-transform: scale(1.1);
+  -moz-transform: scale(1.1);
+  -o-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  transform: scale(1.1);
+}
+.Slider:active {
+  cursor: -webkit-grabbing;
+}
+.Timeline {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -o-box-flex: 1;
+  -ms-box-flex: 1;
+  box-flex: 1;
+  -webkit-flex-grow: 1;
+  flex-grow: 1;
+  position: relative;
+}
+.Timeline .previews {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+}
+.WidthPicker {
+  display: block;
+  position: relative;
+  cursor: pointer;
+}
+.WidthPicker .current-width {
+  width: 64px;
+  height: 64px;
+  -webkit-border-radius: 100%;
+  border-radius: 100%;
+  -webkit-transition: box-shadow 200ms ease, -webkit-transform 200ms ease;
+  -moz-transition: box-shadow 200ms ease, -moz-transform 200ms ease;
+  -o-transition: box-shadow 200ms ease, -o-transform 200ms ease;
+  -ms-transition: box-shadow 200ms ease, -ms-transform 200ms ease;
+  transition: box-shadow 200ms ease, transform 200ms ease;
+  box-shadow: 0 0 1px rgba(0,0,0,0), 0 1px 2px rgba(0,0,0,0);
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -o-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+  position: relative;
+  background-color: #f0f0f0;
+}
+.WidthPicker .current-width:hover {
+  box-shadow: 0 0 1px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.15);
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -o-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+}
+.WidthPicker .current-width:active,
+.WidthPicker .current-width.active {
+  box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 2px 3px rgba(0,0,0,0.15);
+  -webkit-transform: scale(1.1);
+  -moz-transform: scale(1.1);
+  -o-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  transform: scale(1.1);
+}
+.WidthPicker .current-width .current-width-inner {
+  position: absolute;
+  background-color: #606060;
+  -webkit-border-radius: 100%;
+  border-radius: 100%;
+}
+.WidthPicker .width-slider {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  background-color: #f0f0f0;
+  -webkit-border-radius: 74px;
+  border-radius: 74px;
+  padding: 10px;
+  padding-top: 88px;
+  -webkit-transition: opacity 200ms ease, -webkit-transform 200ms ease;
+  -moz-transition: opacity 200ms ease, -moz-transform 200ms ease;
+  -o-transition: opacity 200ms ease, -o-transform 200ms ease;
+  -ms-transition: opacity 200ms ease, -ms-transform 200ms ease;
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+.WidthPicker .width-slider .slider-background {
+  height: 300px;
+  position: relative;
+  width: 64px;
+}
+.WidthPicker .width-slider .slider-background .slider-button {
+  width: 64px;
+  height: 64px;
+  -webkit-border-radius: 100%;
+  border-radius: 100%;
+  -webkit-transition: box-shadow 200ms ease, -webkit-transform 200ms ease;
+  -moz-transition: box-shadow 200ms ease, -moz-transform 200ms ease;
+  -o-transition: box-shadow 200ms ease, -o-transform 200ms ease;
+  -ms-transition: box-shadow 200ms ease, -ms-transform 200ms ease;
+  transition: box-shadow 200ms ease, transform 200ms ease;
+  box-shadow: 0 0 1px rgba(0,0,0,0), 0 1px 2px rgba(0,0,0,0);
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -o-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+  background-color: #606060;
+  position: absolute;
+  margin-top: -32px;
+}
+.WidthPicker .width-slider .slider-background .slider-button:hover {
+  box-shadow: 0 0 1px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.15);
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -o-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+}
+.WidthPicker .width-slider .slider-background .slider-button:active,
+.WidthPicker .width-slider .slider-background .slider-button.active {
+  box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 2px 3px rgba(0,0,0,0.15);
+  -webkit-transform: scale(1.1);
+  -moz-transform: scale(1.1);
+  -o-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  transform: scale(1.1);
+}
+.WidthPicker:not(.dragging) .width-slider {
+  opacity: 0;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  filter: alpha(opacity=0);
+  pointer-events: none;
+  -webkit-transform: scale(0.9) translateY(-20px);
+  -moz-transform: scale(0.9) translateY(-20px);
+  -o-transform: scale(0.9) translateY(-20px);
+  -ms-transform: scale(0.9) translateY(-20px);
+  transform: scale(0.9) translateY(-20px);
+}
+.WidthPicker.dragging .current-width {
+  box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 2px 3px rgba(0,0,0,0.15);
+  -webkit-transform: scale(1.1);
+  -moz-transform: scale(1.1);
+  -o-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  transform: scale(1.1);
+}
+.WidthPicker.dragging .width-slider {
+  opacity: 1;
+  -ms-filter: none;
+  filter: none;
+  pointer-events: auto;
+  -webkit-transform: scale(1) translateY(0px);
+  -moz-transform: scale(1) translateY(0px);
+  -o-transform: scale(1) translateY(0px);
+  -ms-transform: scale(1) translateY(0px);
+  transform: scale(1) translateY(0px);
+}
+body {
+  margin: 0;
+  overflow: hidden;
+}
+body #root {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
