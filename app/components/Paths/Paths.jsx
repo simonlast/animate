@@ -1,7 +1,12 @@
-var mori = require("mori");
+var mori            = require("mori");
+
+var PureRenderMixin = React.addons.PureRenderMixin;
 
 
 var Paths = React.createClass({
+
+	mixins: [PureRenderMixin],
+
 
 	render: function() {
 		return (

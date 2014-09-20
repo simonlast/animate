@@ -1,13 +1,15 @@
 var mori      = require("mori");
+
 var Draggable = require("../../mixins/Draggable.jsx");
 var AppStore  = require("../../stores/AppStore.js");
 
-var classSet  = React.addons.classSet;
+var classSet        = React.addons.classSet;
+var PureRenderMixin = React.addons.PureRenderMixin;
 
 
 var ColorPicker = React.createClass({
 
-	mixins: [Draggable],
+	mixins: [Draggable, PureRenderMixin],
 
 
 	getInitialState: function() {
@@ -16,6 +18,7 @@ var ColorPicker = React.createClass({
 			activeColor: null
 		};
 	},
+
 
 	render: function() {
 		var currentColorStyle = {

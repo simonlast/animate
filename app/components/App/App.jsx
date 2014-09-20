@@ -1,18 +1,23 @@
-var mori          = require("mori");
-var Canvas        = require("../Canvas/Canvas.jsx");
-var Timeline      = require("../Timeline/Timeline.jsx");
-var Paths         = require("../Paths/Paths.jsx");
-var PlayButton    = require("../PlayButton/PlayButton.jsx");
-var ColorPicker   = require("../ColorPicker/ColorPicker.jsx");
-var WidthPicker   = require("../WidthPicker/WidthPicker.jsx");
-var ClearButton   = require("../ClearButton/ClearButton.jsx");
-var AppStore      = require("../../stores/AppStore.js");
-var RevisionStore = require("../../stores/RevisionStore.js");
+var mori            = require("mori");
 
-var classSet      = React.addons.classSet;
+var Canvas          = require("../Canvas/Canvas.jsx");
+var Timeline        = require("../Timeline/Timeline.jsx");
+var Paths           = require("../Paths/Paths.jsx");
+var PlayButton      = require("../PlayButton/PlayButton.jsx");
+var ColorPicker     = require("../ColorPicker/ColorPicker.jsx");
+var WidthPicker     = require("../WidthPicker/WidthPicker.jsx");
+var ClearButton     = require("../ClearButton/ClearButton.jsx");
+var AppStore        = require("../../stores/AppStore.js");
+var RevisionStore   = require("../../stores/RevisionStore.js");
+
+var classSet        = React.addons.classSet;
+var PureRenderMixin = React.addons.PureRenderMixin;
 
 
 var App = React.createClass({
+
+	mixins: [PureRenderMixin],
+
 
 	componentDidMount: function() {
 		AppStore.onValue(this.storeChanged);

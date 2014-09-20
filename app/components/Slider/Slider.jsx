@@ -1,10 +1,12 @@
-var Draggable = require("../../mixins/Draggable.jsx");
-var classSet  = React.addons.classSet;
+var Draggable       = require("../../mixins/Draggable.jsx");
+
+var PureRenderMixin = React.addons.PureRenderMixin;
+var classSet        = React.addons.classSet;
 
 
 var Slider = React.createClass({
 
-	mixins: [Draggable],
+	mixins: [Draggable, PureRenderMixin],
 
 	getInitialState: function() {
 		return {

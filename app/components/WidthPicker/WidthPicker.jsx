@@ -1,12 +1,13 @@
-var Draggable = require("../../mixins/Draggable.jsx");
-var AppStore  = require("../../stores/AppStore.js");
+var Draggable       = require("../../mixins/Draggable.jsx");
+var AppStore        = require("../../stores/AppStore.js");
 
-var classSet  = React.addons.classSet;
+var PureRenderMixin = React.addons.PureRenderMixin;
+var classSet        = React.addons.classSet;
 
 
 var WidthPicker = React.createClass({
 
-	mixins: [Draggable],
+	mixins: [Draggable, PureRenderMixin],
 
 
 	currentWidthMinRatio: .1,

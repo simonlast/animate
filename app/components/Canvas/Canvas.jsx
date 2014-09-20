@@ -1,12 +1,23 @@
-var mori      = require("mori");
-var Paths     = require("../Paths/Paths.jsx");
-var Draggable = require("../../mixins/Draggable.jsx");
-var AppStore  = require("../../stores/AppStore.js");
+var mori            = require("mori");
+
+var Paths           = require("../Paths/Paths.jsx");
+var Draggable       = require("../../mixins/Draggable.jsx");
+var AppStore        = require("../../stores/AppStore.js");
+
+var PureRenderMixin = React.addons.PureRenderMixin;
 
 
 var Canvas = React.createClass({
 
-	mixins: [Draggable],
+	mixins: [Draggable, PureRenderMixin],
+
+
+	getInitialState: function() {
+		return {
+			dragging: false
+		};
+	},
+
 
 	render: function() {
 		return (

@@ -1,10 +1,14 @@
-var AppStore = require("../../stores/AppStore.js");
+var AppStore        = require("../../stores/AppStore.js");
 
 
-var classSet  = React.addons.classSet;
+var PureRenderMixin = React.addons.PureRenderMixin;
+var classSet        = React.addons.classSet;
 
 
 var PlayButton = React.createClass({
+
+	mixins: [PureRenderMixin],
+
 
 	render: function() {
 		var buttonClassSet = classSet({

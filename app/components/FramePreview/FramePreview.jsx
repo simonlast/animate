@@ -1,4 +1,10 @@
+var PureRenderMixin = React.addons.PureRenderMixin;
+
+
 var FramePreview = React.createClass({
+
+	mixins: [PureRenderMixin],
+
 
 	render: function() {
 		var previewStyle = {

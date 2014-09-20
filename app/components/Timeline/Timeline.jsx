@@ -1,11 +1,17 @@
-var mori         = require("mori");
-var Slider       = require("../Slider/Slider.jsx");
-var FramePreview = require("../FramePreview/FramePreview.jsx");
-var PlayButton   = require("../PlayButton/PlayButton.jsx");
-var AppStore     = require("../../stores/AppStore.js");
+var mori            = require("mori");
+
+var Slider          = require("../Slider/Slider.jsx");
+var FramePreview    = require("../FramePreview/FramePreview.jsx");
+var PlayButton      = require("../PlayButton/PlayButton.jsx");
+var AppStore        = require("../../stores/AppStore.js");
+
+var PureRenderMixin = React.addons.PureRenderMixin;
 
 
 var Timeline = React.createClass({
+
+	mixins: [PureRenderMixin],
+
 
 	render: function() {
 		var previews = mori.map(this.createFramePreview, this.props.frames);

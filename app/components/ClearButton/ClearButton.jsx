@@ -1,10 +1,13 @@
-var AppStore = require("../../stores/AppStore.js");
+var AppStore        = require("../../stores/AppStore.js");
 
-
-var classSet  = React.addons.classSet;
+var classSet        = React.addons.classSet;
+var PureRenderMixin = React.addons.PureRenderMixin;
 
 
 var ClearButton = React.createClass({
+
+	mixins: [PureRenderMixin],
+
 
 	render: function() {
 
