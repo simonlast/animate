@@ -22,15 +22,12 @@ var defaultColors = mori.vector(
 );
 
 
-
-
-
 var AppStore = function(){
 	this.events_ = new EventEmitter();
-	this.setInitialData();
-	// RevisionStore.checkpoint(this.data);
+	this.loadFromStorage();
+	RevisionStore.checkpoint(this.data);
 	this.playInterval = setInterval(this.play.bind(this), PLAY_INTERVAL);
-	// RevisionStore.onValue(this.onRevisionStoreChange.bind(this));
+	RevisionStore.onValue(this.onRevisionStoreChange.bind(this));
 };
 
 
@@ -308,14 +305,15 @@ AppStore.prototype.generateCurrentPaths = function() {
 
 AppStore.prototype.onRevisionStoreChange = function(value) {
 	this.data = value;
+	window.data = value;
 	this.triggerChange();
 };
 
 
 AppStore.prototype.checkpoint = function(){
-	// var serialized = JSON.stringify(this.data);
-	// localStorage.setItem("animate", serialized);
-	// RevisionStore.checkpoint(this.data);
+	var serialized = JSON.stringify(mori.clj_to_js(this.data));
+	localStorage.setItem("animate", serialized);
+	RevisionStore.checkpoint(this.data);
 };
 
 
@@ -326,10 +324,10 @@ AppStore.prototype.loadFromStorage = function(){
 	if(value){
 		// Reset defaults
 		value.currentFrame = 0;
-		value.currentColor = defaultColors[0];
+		value.currentColor = mori.nth(defaultColors, 0);
 		value.currentWidth = STROKE_DEFAULT_WIDTH;
 
-		this.data = value;
+		this.data = mori.js_to_clj(value);
 	}
 	else {
 		this.setInitialData();

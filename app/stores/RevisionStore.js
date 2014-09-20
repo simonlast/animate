@@ -1,9 +1,11 @@
-var RevisionStore = function(){
-  this.undoStack = [];
-  this.redoStack = [];
-  this.lastState = null;
+var mori = require("mori");
 
-  this.events_ = new EventEmitter();
+
+var RevisionStore = function(){
+  this.undoStack = mori.vector();
+  this.redoStack = mori.vector();
+  this.lastState = null;
+  this.events    = new EventEmitter();
 };
 
 
@@ -12,12 +14,12 @@ var RevisionStore = function(){
 */
 
 RevisionStore.prototype.onValue = function(callback) {
-  this.events_.on("value", callback);
+  this.events.on("value", callback);
 };
 
 
 RevisionStore.prototype.triggerChange = function(value) {
-  this.events_.emitEvent("value", [_.cloneDeep(value)]);
+  this.events.emitEvent("value", [value]);
 };
 
 
@@ -26,22 +28,21 @@ RevisionStore.prototype.triggerChange = function(value) {
 */
 
 RevisionStore.prototype.checkpoint = function(state) {
-  var currentState = _.cloneDeep(state);
-
   if(this.lastState){
-    this.undoStack.push(this.lastState);
+    this.undoStack = mori.conj(this.undoStack, this.lastState);
   }
 
-  this.lastState = currentState;
-  this.redoStack = [];
+  this.lastState = state;
+  this.redoStack = mori.vector();
 };
 
 
 RevisionStore.prototype.undo = function() {
-  var lastUndo = this.undoStack.pop();
+  if(!mori.is_empty(this.undoStack)){
+    var lastUndo   = mori.last(this.undoStack);
+    this.undoStack = mori.pop(this.undoStack);
+    this.redoStack = mori.conj(this.redoStack, this.lastState);
 
-  if(lastUndo) {
-    this.redoStack.push(this.lastState);
     this.lastState = lastUndo;
     this.triggerChange(lastUndo);
   }
@@ -49,10 +50,11 @@ RevisionStore.prototype.undo = function() {
 
 
 RevisionStore.prototype.redo = function() {
-  var lastRedo = this.redoStack.pop();
+  if(!mori.is_empty(this.redoStack)){
+    var lastRedo = mori.last(this.redoStack);
+    this.redoStack = mori.pop(this.redoStack);
+    this.undoStack = mori.conj(this.undoStack, this.lastState);
 
-  if(lastRedo) {
-    this.undoStack.push(this.lastState);
     this.lastState = lastRedo;
     this.triggerChange(lastRedo);
   }
