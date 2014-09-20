@@ -21,12 +21,12 @@ var Canvas = React.createClass({
 	*/
 
 	handleDragStart: function(e) {
-		AppStore.createPathInCurrentFrame([e.currentX, e.currentY]);
+		AppStore.createPathInCurrentFrame({x: e.currentX, y: e.currentY});
 	},
 
 
 	handleDragMove: function(e) {
-		AppStore.appendPathToCurrentFrame([e.currentX, e.currentY]);
+		AppStore.appendPathToCurrentFrame({x: e.currentX, y: e.currentY});
 	},
 
 

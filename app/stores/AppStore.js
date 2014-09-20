@@ -21,7 +21,8 @@ var defaultColors = [
 
 var AppStore = function(){
 	this.events_ = new EventEmitter();
-	this.setInitialData();
+	this.loadFromStorage();
+	RevisionStore.checkpoint(this.data_);
 	this.playInterval = setInterval(this.play.bind(this), PLAY_INTERVAL);
 	RevisionStore.onValue(this.onRevisionStoreChange.bind(this));
 };
@@ -88,6 +89,7 @@ AppStore.prototype.triggerChange = function() {
 
 AppStore.prototype.clear = function(){
 	this.setInitialData();
+	this.checkpoint();
 	this.triggerChange();
 };
 
@@ -132,7 +134,7 @@ AppStore.prototype.setCurrentWidth = function(newValue) {
 
 
 AppStore.prototype.finishCurrentPath = function() {
-	RevisionStore.checkpoint(this.data_);
+	this.checkpoint();
 };
 
 
@@ -294,6 +296,32 @@ AppStore.prototype.onRevisionStoreChange = function(value) {
 };
 
 
+AppStore.prototype.checkpoint = function(){
+	var serialized = JSON.stringify(this.data_);
+	localStorage.setItem("animate", serialized);
+	RevisionStore.checkpoint(this.data_);
+};
+
+
+AppStore.prototype.loadFromStorage = function(){
+	var serialized = localStorage.getItem("animate");
+	var value = JSON.parse(serialized);
+
+	if(value){
+		// Reset defaults
+		value.currentFrame = 0;
+		value.currentColor = defaultColors[0];
+		value.currentWidth = STROKE_DEFAULT_WIDTH;
+
+		this.data_ = value;
+	}
+	else {
+		this.setInitialData();
+	}
+
+};
+
+
 AppStore.prototype.setInitialData = function() {
 	this.data_ = {
 		frames: [],
@@ -306,8 +334,6 @@ AppStore.prototype.setInitialData = function() {
 		maxWidth: STROKE_MAX_WIDTH,
 		currentWidth: STROKE_DEFAULT_WIDTH
 	};
-
-	RevisionStore.checkpoint(this.data_);
 };
 
 
