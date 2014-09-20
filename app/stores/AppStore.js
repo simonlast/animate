@@ -244,22 +244,24 @@ AppStore.prototype.createFrameAtCurrentTime = function(initialPoint) {
 		)
 	);
 
-	this.data = mori.update_in(this.data, ["frames"], function(frames){
-		return mori.conj(frames, newFrame);
-	});
+	var frames = this.data.get("frames");
+	frames = mori.conj(frames, newFrame);
+	this.data = mori.assoc(this.data, "frames", frames)
 
 	this.triggerChange();
 };
 
 
 AppStore.prototype.findLastFrameToCurrent = function() {
-	var frames = this.data.get("frames");
-	var frames = mori.reverse(frames);
-
+	var frames       = this.data.get("frames");
 	var currentFrame = this.data.get("currentFrame");
 
-	return moriHelpers.find(frames, function(frameData){
+	var framesLessThanCurrent = mori.filter(function(frameData){
 		return frameData.get("frameNumber") < currentFrame;
+	}, frames);
+
+	return moriHelpers.max(framesLessThanCurrent, function(frameData){
+		return frameData.get("frameNumber");
 	});
 };
 
