@@ -1,2 +1,1 @@
-Animate
-=======
+# [Animate](http://simonlast.org/animate)
