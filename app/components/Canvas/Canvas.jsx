@@ -1,3 +1,4 @@
+var mori      = require("mori");
 var Paths     = require("../Paths/Paths.jsx");
 var Draggable = require("../../mixins/Draggable.jsx");
 var AppStore  = require("../../stores/AppStore.js");
@@ -21,12 +22,12 @@ var Canvas = React.createClass({
 	*/
 
 	handleDragStart: function(e) {
-		AppStore.createPathInCurrentFrame({x: e.currentX, y: e.currentY});
+		AppStore.createPathInCurrentFrame(mori.hash_map("x", e.currentX, "y", e.currentY));
 	},
 
 
 	handleDragMove: function(e) {
-		AppStore.appendPathToCurrentFrame({x: e.currentX, y: e.currentY});
+		AppStore.appendPathToCurrentFrame(mori.hash_map("x", e.currentX, "y", e.currentY));
 	},
 
 

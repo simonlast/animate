@@ -1,3 +1,4 @@
+var mori          = require("mori");
 var Canvas        = require("../Canvas/Canvas.jsx");
 var Timeline      = require("../Timeline/Timeline.jsx");
 var Paths         = require("../Paths/Paths.jsx");
@@ -19,48 +20,54 @@ var App = React.createClass({
 		Mousetrap.bind("space", this.togglePlayState);
 		Mousetrap.bind("right", this.advanceFrame);
 		Mousetrap.bind("left", this.retractFrame);
-    Mousetrap.bind("command+z", this.handleUndo);
-    Mousetrap.bind("command+shift+z", this.handleRedo);
+		Mousetrap.bind("command+z", this.handleUndo);
+		Mousetrap.bind("command+shift+z", this.handleRedo);
 	},
 
 
 	getInitialState: function() {
-		return AppStore.getValue();
+		return {
+			app: AppStore.getValue()
+		};
 	},
 
 
 	storeChanged: function(newValue){
-		this.setState(newValue);
+		this.setState({
+			app: newValue
+		});
 	},
 
 
 	render: function() {
+		var state = this.state.app;
+
 		var appClassSet = classSet({
-			"playing": this.state.playing,
+			"playing": state.get("playing"),
 			"App": true
 		});
 
 		return (
 			<div className={appClassSet}>
 				<div className="timeline-container">
-					<PlayButton playing={this.state.playing} />
+					<PlayButton playing={state.get("playing")} />
 					<ColorPicker
-						currentColor={this.state.currentColor}
-						colorOptions={this.state.colorOptions} />
+						currentColor={state.get("currentColor")}
+						colorOptions={state.get("colorOptions")} />
 					<WidthPicker
-						currentWidth={this.state.currentWidth}
-						minWidth={this.state.minWidth}
-						maxWidth={this.state.maxWidth} />
+						currentWidth={state.get("currentWidth")}
+						minWidth={state.get("minWidth")}
+						maxWidth={state.get("maxWidth")} />
 					<Timeline
-						currentFrame={this.state.currentFrame}
-						maxFrameCount={this.state.maxFrameCount}
-						frames={this.state.frames}
-						playing={this.state.playing} />
+						currentFrame={state.get("currentFrame")}
+						maxFrameCount={state.get("maxFrameCount")}
+						frames={state.get("frames")}
+						playing={state.get("playing")} />
 					<ClearButton />
 				</div>
 				<div className="canvas-container">
-					<Paths paths={this.state.lastPaths} />
-					<Canvas paths={this.state.currentPaths} />
+					<Paths paths={state.get("lastPaths")} />
+					<Canvas paths={state.get("currentPaths")} />
 					</div>
 			</div>
 		);

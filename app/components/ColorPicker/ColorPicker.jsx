@@ -1,3 +1,4 @@
+var mori      = require("mori");
 var Draggable = require("../../mixins/Draggable.jsx");
 var AppStore  = require("../../stores/AppStore.js");
 
@@ -21,30 +22,17 @@ var ColorPicker = React.createClass({
 			"background-color": this.props.currentColor
 		};
 
-		var colorOptions = _.map(this.props.colorOptions, function(color){
-			var colorOptionStyle = {
-				"background-color": color
-			};
-
-			var colorOptionClasses = classSet({
-				"color-option": true,
-				"active": this.state.activeColor === color
-			});
-
-			return (
-				<div className={colorOptionClasses} data-color={color} key={color} style={colorOptionStyle}></div>
-			);
-		}.bind(this));
-
 		var classes = classSet({
 			"ColorPicker": true,
 			"dragging": this.state.dragging
 		})
 
+		var colorOptionEls = mori.map(this.getColorOptionEl, this.props.colorOptions);
+
 		return (
 			<div className={classes}>
 				<div className="color-options">
-					{colorOptions}
+					{mori.clj_to_js(colorOptionEls)}
 				</div>
 				<div className="current-color" style={currentColorStyle}></div>
 			</div>
@@ -82,6 +70,22 @@ var ColorPicker = React.createClass({
 	updateActiveColor: function(currentTarget){
 		var overColor = currentTarget.getAttribute("data-color");
 		this.setState({activeColor: overColor});
+	},
+
+
+	getColorOptionEl: function(color){
+		var colorOptionStyle = {
+			"background-color": color
+		};
+
+		var colorOptionClasses = classSet({
+			"color-option": true,
+			"active": this.state.activeColor === color
+		});
+
+		return (
+			<div className={colorOptionClasses} data-color={color} key={color} style={colorOptionStyle}></div>
+		);
 	}
 
 });

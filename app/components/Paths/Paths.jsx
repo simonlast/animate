@@ -1,3 +1,6 @@
+var mori = require("mori");
+
+
 var Paths = React.createClass({
 
 	render: function() {
@@ -33,7 +36,7 @@ var Paths = React.createClass({
 
     context.clearRect(0, 0, context.canvas.width, context.canvas.height);
 
-    _.each(this.props.paths, function(pathData){
+    mori.each(this.props.paths, function(pathData){
     	this.drawPath(context, pathData);
     }.bind(this));
 	},
@@ -43,35 +46,37 @@ var Paths = React.createClass({
 	* Adapted from http://stackoverflow.com/a/7058606
 	*/
 	drawPath: function(context, pathData) {
-		var points = pathData.points;
+		var points    = pathData.get("points");
+		var numPoints = mori.count(points);
 
-		if(points.length < 3){
+		if(numPoints < 3){
 			return
 		}
 
 		context.beginPath();
 
 		// Move to start
-		context.moveTo(points[0].x, points[0].y);
+		var firstPoint = mori.nth(points, 0);
+		context.moveTo(firstPoint.get("x"), firstPoint.get("y"));
 
-		for (var i = 1; i < points.length - 2; i ++){
-			var currentPoint = points[i];
-			var nextPoint    = points[i + 1];
-			var averageX     = (currentPoint.x + nextPoint.x) / 2;
-			var averageY     = (currentPoint.y + nextPoint.y) / 2;
+		for (var i = 1; i < numPoints - 2; i ++){
+			var currentPoint = mori.nth(points, i);
+			var nextPoint    = mori.nth(points, i + 1);
+			var averageX     = (currentPoint.get("x") + nextPoint.get("x")) / 2;
+			var averageY     = (currentPoint.get("y") + nextPoint.get("y")) / 2;
 
 			// Create quadratic curve from current to the average of the current and next.
-		  context.quadraticCurveTo(currentPoint.x, currentPoint.y, averageX, averageY);
+		  context.quadraticCurveTo(currentPoint.get("x"), currentPoint.get("y"), averageX, averageY);
 		}
 
 		// Create a curve to the last two points.
-		var lastPoint = points[points.length - 1];
-		var secondToLastPoint = points[points.length - 2];
-		context.quadraticCurveTo(secondToLastPoint.x, secondToLastPoint.y, lastPoint.x, lastPoint.y);
+		var lastPoint = mori.nth(points, numPoints - 1);
+		var secondToLastPoint = mori.nth(points, numPoints - 2);
+		context.quadraticCurveTo(secondToLastPoint.get("x"), secondToLastPoint.get("y"), lastPoint.get("x"), lastPoint.get("y"));
 
-		context.lineWidth   = pathData.width;
+		context.lineWidth   = pathData.get("width");
 		context.lineCap     = "round";
-		context.strokeStyle = pathData.color;
+		context.strokeStyle = pathData.get("color");
 	  context.stroke();
 	}
 
