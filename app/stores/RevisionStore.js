@@ -1,4 +1,5 @@
-var mori = require("mori");
+var mori         = require("mori");
+var EventEmitter = require("wolfy87-eventemitter");
 
 
 var RevisionStore = function(){

@@ -1,4 +1,6 @@
 var mori          = require("mori");
+var EventEmitter  = require("wolfy87-eventemitter");
+var uuid          = require("node-uuid");
 
 var moriHelpers   = require("../helpers/moriHelpers.js");
 var RevisionStore = require("./RevisionStore.js");
