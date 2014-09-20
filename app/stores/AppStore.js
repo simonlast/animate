@@ -176,7 +176,7 @@ AppStore.prototype.advanceFrameWithGuard = function(){
 AppStore.prototype.advanceFrame = function() {
 	var newFrame  = this.data.get("currentFrame") + 1;
 
-	if(newFrame >= this.data.get("maxFrameCount")) {
+	if(newFrame > this.data.get("maxFrameCount")) {
 		newFrame = 0;
 	}
 
@@ -188,7 +188,7 @@ AppStore.prototype.retractFrame = function() {
 	var newFrame = this.data.get("currentFrame") - 1;
 
 	if(newFrame < 0) {
-		newFrame = this.data.get("maxFrameCount") - 1;
+		newFrame = this.data.get("maxFrameCount");
 	}
 
 	this.setCurrentFrame(newFrame);

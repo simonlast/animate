@@ -759,7 +759,7 @@ React.renderComponent(
   App(null),
   document.getElementById("root")
 );
-}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_5b63f7e2.js","/")
+}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_a2acfc57.js","/")
 },{"./components/App/App.jsx":1,"1YiZ5S":25,"buffer":16}],12:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var mori = require("mori");
@@ -1187,7 +1187,7 @@ AppStore.prototype.advanceFrameWithGuard = function(){
 AppStore.prototype.advanceFrame = function() {
 	var newFrame  = this.data.get("currentFrame") + 1;
 
-	if(newFrame >= this.data.get("maxFrameCount")) {
+	if(newFrame > this.data.get("maxFrameCount")) {
 		newFrame = 0;
 	}
 
@@ -1199,7 +1199,7 @@ AppStore.prototype.retractFrame = function() {
 	var newFrame = this.data.get("currentFrame") - 1;
 
 	if(newFrame < 0) {
-		newFrame = this.data.get("maxFrameCount") - 1;
+		newFrame = this.data.get("maxFrameCount");
 	}
 
 	this.setCurrentFrame(newFrame);
