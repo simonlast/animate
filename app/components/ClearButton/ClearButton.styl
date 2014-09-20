@@ -1,0 +1,24 @@
+.ClearButton
+	button-style()
+	cursor: pointer
+	background-color: $button-background
+
+	flex-grow: 0
+	flex-shrink: 0
+
+
+	> i
+		display: block
+		text-align: center
+		color: $button-foreground
+
+		font-size: 36px
+		margin-top: 15px
+		margin-left: 2px
+
+		transition: transform 200ms ease
+
+
+	&:hover
+		> i
+			transform: rotate(45deg)

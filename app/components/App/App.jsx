@@ -4,6 +4,7 @@ var Paths         = require("../Paths/Paths.jsx");
 var PlayButton    = require("../PlayButton/PlayButton.jsx");
 var ColorPicker   = require("../ColorPicker/ColorPicker.jsx");
 var WidthPicker   = require("../WidthPicker/WidthPicker.jsx");
+var ClearButton   = require("../ClearButton/ClearButton.jsx");
 var AppStore      = require("../../stores/AppStore.js");
 var RevisionStore = require("../../stores/RevisionStore.js");
 
@@ -55,6 +56,7 @@ var App = React.createClass({
 						maxFrameCount={this.state.maxFrameCount}
 						frames={this.state.frames}
 						playing={this.state.playing} />
+					<ClearButton />
 				</div>
 				<div className="canvas-container">
 					<Paths paths={this.state.lastPaths} />

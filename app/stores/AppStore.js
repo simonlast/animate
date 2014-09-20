@@ -21,21 +21,7 @@ var defaultColors = [
 
 var AppStore = function(){
 	this.events_ = new EventEmitter();
-
-	this.data_ = {
-		frames: [],
-		currentFrame: 0,
-		colorOptions: defaultColors,
-		currentColor: defaultColors[0],
-		playing: false,
-		maxFrameCount: MAX_FRAME_COUNT,
-		minWidth: STROKE_MIN_WIDTH,
-		maxWidth: STROKE_MAX_WIDTH,
-		currentWidth: STROKE_DEFAULT_WIDTH
-	};
-
-	RevisionStore.checkpoint(this.data_);
-
+	this.setInitialData();
 	this.playInterval = setInterval(this.play.bind(this), PLAY_INTERVAL);
 	RevisionStore.onValue(this.onRevisionStoreChange.bind(this));
 };
@@ -98,6 +84,13 @@ AppStore.prototype.triggerChange = function() {
 /**
 * Public API
 */
+
+
+AppStore.prototype.clear = function(){
+	this.setInitialData();
+	this.triggerChange();
+};
+
 
 AppStore.prototype.createPathInCurrentFrame = function(point) {
 	this.setPlayState(false);
@@ -298,6 +291,23 @@ AppStore.prototype.generateCurrentPaths = function() {
 AppStore.prototype.onRevisionStoreChange = function(value) {
 	this.data_ = value;
 	this.triggerChange();
+};
+
+
+AppStore.prototype.setInitialData = function() {
+	this.data_ = {
+		frames: [],
+		currentFrame: 0,
+		colorOptions: defaultColors,
+		currentColor: defaultColors[0],
+		playing: false,
+		maxFrameCount: MAX_FRAME_COUNT,
+		minWidth: STROKE_MIN_WIDTH,
+		maxWidth: STROKE_MAX_WIDTH,
+		currentWidth: STROKE_DEFAULT_WIDTH
+	};
+
+	RevisionStore.checkpoint(this.data_);
 };
 
 
