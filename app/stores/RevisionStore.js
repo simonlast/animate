@@ -14,8 +14,8 @@ var RevisionStore = function(){
 * Event API
 */
 
-RevisionStore.prototype.onValue = function(callback) {
-  this.events.on("value", callback);
+RevisionStore.prototype.on = function(eventType, callback) {
+  this.events.on(eventType, callback);
 };
 
 
@@ -46,6 +46,7 @@ RevisionStore.prototype.undo = function() {
 
     this.lastState = lastUndo;
     this.triggerChange(lastUndo);
+    this.events.emitEvent("undo");
   }
 };
 
@@ -58,6 +59,7 @@ RevisionStore.prototype.redo = function() {
 
     this.lastState = lastRedo;
     this.triggerChange(lastRedo);
+    this.events.emitEvent("redo");
   }
 };
 

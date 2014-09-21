@@ -759,7 +759,7 @@ React.renderComponent(
   App(null),
   document.getElementById("root")
 );
-}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_ebc8857d.js","/")
+}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_4693bfa9.js","/")
 },{"./components/App/App.jsx":1,"1YiZ5S":25,"buffer":16}],12:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var mori = require("mori");
@@ -1039,8 +1039,12 @@ var AppStore = function(){
 	this.events_ = new EventEmitter();
 	this.loadFromStorage();
 	RevisionStore.checkpoint(this.data);
+
 	this.playInterval = setInterval(this.play.bind(this), PLAY_INTERVAL);
-	RevisionStore.onValue(this.onRevisionStoreChange.bind(this));
+
+	RevisionStore.on("value", this.onRevisionStoreChange.bind(this));
+	RevisionStore.on("undo", this.onRevisionStoreGesture.bind(this));
+	RevisionStore.on("redo", this.onRevisionStoreGesture.bind(this));
 };
 
 
@@ -1323,15 +1327,24 @@ AppStore.prototype.generateCurrentPaths = function() {
 
 AppStore.prototype.onRevisionStoreChange = function(value) {
 	this.data = value;
-	window.data = value;
 	this.triggerChange();
 };
 
 
+AppStore.prototype.onRevisionStoreGesture = function(value) {
+	this.persist();
+};
+
+
 AppStore.prototype.checkpoint = function(){
+	this.persist();
+	RevisionStore.checkpoint(this.data);
+};
+
+
+AppStore.prototype.persist = function(){
 	var serialized = JSON.stringify(mori.clj_to_js(this.data));
 	localStorage.setItem("animate", serialized);
-	RevisionStore.checkpoint(this.data);
 };
 
 
@@ -1388,8 +1401,8 @@ var RevisionStore = function(){
 * Event API
 */
 
-RevisionStore.prototype.onValue = function(callback) {
-  this.events.on("value", callback);
+RevisionStore.prototype.on = function(eventType, callback) {
+  this.events.on(eventType, callback);
 };
 
 
@@ -1420,6 +1433,7 @@ RevisionStore.prototype.undo = function() {
 
     this.lastState = lastUndo;
     this.triggerChange(lastUndo);
+    this.events.emitEvent("undo");
   }
 };
 
@@ -1432,6 +1446,7 @@ RevisionStore.prototype.redo = function() {
 
     this.lastState = lastRedo;
     this.triggerChange(lastRedo);
+    this.events.emitEvent("redo");
   }
 };
 

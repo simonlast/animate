@@ -28,8 +28,12 @@ var AppStore = function(){
 	this.events_ = new EventEmitter();
 	this.loadFromStorage();
 	RevisionStore.checkpoint(this.data);
+
 	this.playInterval = setInterval(this.play.bind(this), PLAY_INTERVAL);
-	RevisionStore.onValue(this.onRevisionStoreChange.bind(this));
+
+	RevisionStore.on("value", this.onRevisionStoreChange.bind(this));
+	RevisionStore.on("undo", this.onRevisionStoreGesture.bind(this));
+	RevisionStore.on("redo", this.onRevisionStoreGesture.bind(this));
 };
 
 
@@ -312,15 +316,24 @@ AppStore.prototype.generateCurrentPaths = function() {
 
 AppStore.prototype.onRevisionStoreChange = function(value) {
 	this.data = value;
-	window.data = value;
 	this.triggerChange();
 };
 
 
+AppStore.prototype.onRevisionStoreGesture = function(value) {
+	this.persist();
+};
+
+
 AppStore.prototype.checkpoint = function(){
+	this.persist();
+	RevisionStore.checkpoint(this.data);
+};
+
+
+AppStore.prototype.persist = function(){
 	var serialized = JSON.stringify(mori.clj_to_js(this.data));
 	localStorage.setItem("animate", serialized);
-	RevisionStore.checkpoint(this.data);
 };
 
 
