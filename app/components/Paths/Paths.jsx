@@ -1,11 +1,13 @@
 var mori            = require("mori");
 
+var WindowResize    = require("../../mixins/WindowResize.jsx");
+
 var PureRenderMixin = React.addons.PureRenderMixin;
 
 
 var Paths = React.createClass({
 
-	mixins: [PureRenderMixin],
+	mixins: [PureRenderMixin, WindowResize],
 
 
 	render: function() {
@@ -18,18 +20,22 @@ var Paths = React.createClass({
 
 
 	componentDidMount: function() {
-		var thisRect  = this.getDOMNode().getBoundingClientRect();
-		var canvas    = this.refs.canvas.getDOMNode();
-		canvas.width  = thisRect.width;
-		canvas.height = thisRect.height;
-
-    this.redraw();
+		this.sizeCanvas();
   },
 
 
   componentDidUpdate: function() {
     this.redraw();
   },
+
+
+	/**
+	* Events
+	*/
+
+	handleWindowResize: function() {
+		this.sizeCanvas();
+	},
 
 
 	/**
@@ -83,7 +89,17 @@ var Paths = React.createClass({
 		context.lineCap     = "round";
 		context.strokeStyle = pathData.get("color");
 	  context.stroke();
-	}
+	},
+
+
+	sizeCanvas: function() {
+		var thisRect  = this.getDOMNode().getBoundingClientRect();
+		var canvas    = this.refs.canvas.getDOMNode();
+		canvas.width  = thisRect.width;
+		canvas.height = thisRect.height;
+
+    this.redraw();
+  }
 
 });
 

@@ -120,7 +120,7 @@ var App = React.createClass({displayName: 'App',
 
 module.exports = App;
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/components/App/App.jsx","/components/App")
-},{"../../stores/AppStore.js":14,"../../stores/RevisionStore.js":15,"../Canvas/Canvas.jsx":2,"../ClearButton/ClearButton.jsx":3,"../ColorPicker/ColorPicker.jsx":4,"../Paths/Paths.jsx":6,"../PlayButton/PlayButton.jsx":7,"../Timeline/Timeline.jsx":9,"../WidthPicker/WidthPicker.jsx":10,"1YiZ5S":25,"buffer":16,"mori":26}],2:[function(require,module,exports){
+},{"../../stores/AppStore.js":15,"../../stores/RevisionStore.js":16,"../Canvas/Canvas.jsx":2,"../ClearButton/ClearButton.jsx":3,"../ColorPicker/ColorPicker.jsx":4,"../Paths/Paths.jsx":6,"../PlayButton/PlayButton.jsx":7,"../Timeline/Timeline.jsx":9,"../WidthPicker/WidthPicker.jsx":10,"1YiZ5S":26,"buffer":17,"mori":27}],2:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var mori            = require("mori");
 
@@ -170,13 +170,12 @@ var Canvas = React.createClass({displayName: 'Canvas',
 		AppStore.finishCurrentPath();
 	}
 
-
 });
 
 
 module.exports = Canvas;
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/components/Canvas/Canvas.jsx","/components/Canvas")
-},{"../../mixins/Draggable.jsx":13,"../../stores/AppStore.js":14,"../Paths/Paths.jsx":6,"1YiZ5S":25,"buffer":16,"mori":26}],3:[function(require,module,exports){
+},{"../../mixins/Draggable.jsx":13,"../../stores/AppStore.js":15,"../Paths/Paths.jsx":6,"1YiZ5S":26,"buffer":17,"mori":27}],3:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var AppStore        = require("../../stores/AppStore.js");
 
@@ -213,7 +212,7 @@ var ClearButton = React.createClass({displayName: 'ClearButton',
 
 module.exports = ClearButton;
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/components/ClearButton/ClearButton.jsx","/components/ClearButton")
-},{"../../stores/AppStore.js":14,"1YiZ5S":25,"buffer":16}],4:[function(require,module,exports){
+},{"../../stores/AppStore.js":15,"1YiZ5S":26,"buffer":17}],4:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var mori      = require("mori");
 
@@ -313,7 +312,7 @@ var ColorPicker = React.createClass({displayName: 'ColorPicker',
 
 module.exports = ColorPicker;
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/components/ColorPicker/ColorPicker.jsx","/components/ColorPicker")
-},{"../../mixins/Draggable.jsx":13,"../../stores/AppStore.js":14,"1YiZ5S":25,"buffer":16,"mori":26}],5:[function(require,module,exports){
+},{"../../mixins/Draggable.jsx":13,"../../stores/AppStore.js":15,"1YiZ5S":26,"buffer":17,"mori":27}],5:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var PureRenderMixin = React.addons.PureRenderMixin;
 
@@ -347,16 +346,18 @@ var FramePreview = React.createClass({displayName: 'FramePreview',
 
 module.exports = FramePreview;
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/components/FramePreview/FramePreview.jsx","/components/FramePreview")
-},{"1YiZ5S":25,"buffer":16}],6:[function(require,module,exports){
+},{"1YiZ5S":26,"buffer":17}],6:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var mori            = require("mori");
+
+var WindowResize    = require("../../mixins/WindowResize.jsx");
 
 var PureRenderMixin = React.addons.PureRenderMixin;
 
 
 var Paths = React.createClass({displayName: 'Paths',
 
-	mixins: [PureRenderMixin],
+	mixins: [PureRenderMixin, WindowResize],
 
 
 	render: function() {
@@ -369,18 +370,22 @@ var Paths = React.createClass({displayName: 'Paths',
 
 
 	componentDidMount: function() {
-		var thisRect  = this.getDOMNode().getBoundingClientRect();
-		var canvas    = this.refs.canvas.getDOMNode();
-		canvas.width  = thisRect.width;
-		canvas.height = thisRect.height;
-
-    this.redraw();
+		this.sizeCanvas();
   },
 
 
   componentDidUpdate: function() {
     this.redraw();
   },
+
+
+	/**
+	* Events
+	*/
+
+	handleWindowResize: function() {
+		this.sizeCanvas();
+	},
 
 
 	/**
@@ -434,14 +439,24 @@ var Paths = React.createClass({displayName: 'Paths',
 		context.lineCap     = "round";
 		context.strokeStyle = pathData.get("color");
 	  context.stroke();
-	}
+	},
+
+
+	sizeCanvas: function() {
+		var thisRect  = this.getDOMNode().getBoundingClientRect();
+		var canvas    = this.refs.canvas.getDOMNode();
+		canvas.width  = thisRect.width;
+		canvas.height = thisRect.height;
+
+    this.redraw();
+  }
 
 });
 
 
 module.exports = Paths;
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/components/Paths/Paths.jsx","/components/Paths")
-},{"1YiZ5S":25,"buffer":16,"mori":26}],7:[function(require,module,exports){
+},{"../../mixins/WindowResize.jsx":14,"1YiZ5S":26,"buffer":17,"mori":27}],7:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var AppStore        = require("../../stores/AppStore.js");
 
@@ -489,7 +504,7 @@ var PlayButton = React.createClass({displayName: 'PlayButton',
 
 module.exports = PlayButton;
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/components/PlayButton/PlayButton.jsx","/components/PlayButton")
-},{"../../stores/AppStore.js":14,"1YiZ5S":25,"buffer":16}],8:[function(require,module,exports){
+},{"../../stores/AppStore.js":15,"1YiZ5S":26,"buffer":17}],8:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var Draggable       = require("../../mixins/Draggable.jsx");
 
@@ -575,7 +590,7 @@ var Slider = React.createClass({displayName: 'Slider',
 
 module.exports = Slider;
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/components/Slider/Slider.jsx","/components/Slider")
-},{"../../mixins/Draggable.jsx":13,"1YiZ5S":25,"buffer":16}],9:[function(require,module,exports){
+},{"../../mixins/Draggable.jsx":13,"1YiZ5S":26,"buffer":17}],9:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var mori            = require("mori");
 
@@ -639,7 +654,7 @@ var Timeline = React.createClass({displayName: 'Timeline',
 
 module.exports = Timeline;
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/components/Timeline/Timeline.jsx","/components/Timeline")
-},{"../../stores/AppStore.js":14,"../FramePreview/FramePreview.jsx":5,"../PlayButton/PlayButton.jsx":7,"../Slider/Slider.jsx":8,"1YiZ5S":25,"buffer":16,"mori":26}],10:[function(require,module,exports){
+},{"../../stores/AppStore.js":15,"../FramePreview/FramePreview.jsx":5,"../PlayButton/PlayButton.jsx":7,"../Slider/Slider.jsx":8,"1YiZ5S":26,"buffer":17,"mori":27}],10:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var Draggable       = require("../../mixins/Draggable.jsx");
 var AppStore        = require("../../stores/AppStore.js");
@@ -750,7 +765,7 @@ var WidthPicker = React.createClass({displayName: 'WidthPicker',
 
 module.exports = WidthPicker;
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/components/WidthPicker/WidthPicker.jsx","/components/WidthPicker")
-},{"../../mixins/Draggable.jsx":13,"../../stores/AppStore.js":14,"1YiZ5S":25,"buffer":16}],11:[function(require,module,exports){
+},{"../../mixins/Draggable.jsx":13,"../../stores/AppStore.js":15,"1YiZ5S":26,"buffer":17}],11:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var App = require("./components/App/App.jsx");
 
@@ -759,8 +774,8 @@ React.renderComponent(
   App(null),
   document.getElementById("root")
 );
-}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_502d9174.js","/")
-},{"./components/App/App.jsx":1,"1YiZ5S":25,"buffer":16}],12:[function(require,module,exports){
+}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_f53466ba.js","/")
+},{"./components/App/App.jsx":1,"1YiZ5S":26,"buffer":17}],12:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var mori = require("mori");
 
@@ -818,7 +833,7 @@ moriHelpers.max = function(collection, valueFunction) {
 
 module.exports = moriHelpers;
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/helpers/moriHelpers.js","/helpers")
-},{"1YiZ5S":25,"buffer":16,"mori":26}],13:[function(require,module,exports){
+},{"1YiZ5S":26,"buffer":17,"mori":27}],13:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var Draggable = {
 
@@ -1007,7 +1022,40 @@ var Draggable = {
 
 module.exports = Draggable
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/mixins/Draggable.jsx","/mixins")
-},{"1YiZ5S":25,"buffer":16}],14:[function(require,module,exports){
+},{"1YiZ5S":26,"buffer":17}],14:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+var RESIZE_DEBOUNCE = 200;
+
+
+var WindowResize = {
+
+  componentDidMount: function() {
+    this.debouncedOnWindowResize = _.debounce(this.onWindowResize, RESIZE_DEBOUNCE);
+    window.addEventListener("resize", this.debouncedOnWindowResize);
+  },
+
+
+  componentWillUnmount: function() {
+    window.removeEventListener("resize", this.debouncedOnWindowResize);
+  },
+
+
+  /**
+  * Mouse Events
+  */
+
+  onWindowResize: function(e) {
+    if(_.isFunction(this.handleWindowResize)){
+      this.handleWindowResize(e);
+    }
+  }
+
+};
+
+
+module.exports = WindowResize
+}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/mixins/WindowResize.jsx","/mixins")
+},{"1YiZ5S":26,"buffer":17}],15:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var mori          = require("mori");
 var EventEmitter  = require("wolfy87-eventemitter");
@@ -1383,7 +1431,7 @@ AppStore.prototype.setInitialData = function() {
 
 module.exports = new AppStore();
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/stores/AppStore.js","/stores")
-},{"../helpers/moriHelpers.js":12,"./RevisionStore.js":15,"1YiZ5S":25,"buffer":16,"mori":26,"node-uuid":27,"wolfy87-eventemitter":28}],15:[function(require,module,exports){
+},{"../helpers/moriHelpers.js":12,"./RevisionStore.js":16,"1YiZ5S":26,"buffer":17,"mori":27,"node-uuid":28,"wolfy87-eventemitter":29}],16:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var mori         = require("mori");
 var EventEmitter = require("wolfy87-eventemitter");
@@ -1453,7 +1501,7 @@ RevisionStore.prototype.redo = function() {
 
 module.exports = new RevisionStore();
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/stores/RevisionStore.js","/stores")
-},{"1YiZ5S":25,"buffer":16,"mori":26,"wolfy87-eventemitter":28}],16:[function(require,module,exports){
+},{"1YiZ5S":26,"buffer":17,"mori":27,"wolfy87-eventemitter":29}],17:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 /*!
  * The buffer module from node.js, for the browser.
@@ -2566,7 +2614,7 @@ function assert (test, message) {
 }
 
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/index.js","/../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer")
-},{"1YiZ5S":25,"base64-js":17,"buffer":16,"ieee754":18}],17:[function(require,module,exports){
+},{"1YiZ5S":26,"base64-js":18,"buffer":17,"ieee754":19}],18:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 
@@ -2690,7 +2738,7 @@ var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 }(typeof exports === 'undefined' ? (this.base64js = {}) : exports))
 
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/node_modules/base64-js/lib/b64.js","/../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/node_modules/base64-js/lib")
-},{"1YiZ5S":25,"buffer":16}],18:[function(require,module,exports){
+},{"1YiZ5S":26,"buffer":17}],19:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 exports.read = function(buffer, offset, isLE, mLen, nBytes) {
   var e, m,
@@ -2778,7 +2826,7 @@ exports.write = function(buffer, value, offset, isLE, mLen, nBytes) {
 };
 
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/node_modules/ieee754/index.js","/../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/node_modules/ieee754")
-},{"1YiZ5S":25,"buffer":16}],19:[function(require,module,exports){
+},{"1YiZ5S":26,"buffer":17}],20:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var Buffer = require('buffer').Buffer;
 var intSize = 4;
@@ -2817,7 +2865,7 @@ function hash(buf, fn, hashSize, bigEndian) {
 module.exports = { hash: hash };
 
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../node_modules/gulp-browserify/node_modules/browserify/node_modules/crypto-browserify/helpers.js","/../node_modules/gulp-browserify/node_modules/browserify/node_modules/crypto-browserify")
-},{"1YiZ5S":25,"buffer":16}],20:[function(require,module,exports){
+},{"1YiZ5S":26,"buffer":17}],21:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var Buffer = require('buffer').Buffer
 var sha = require('./sha')
@@ -2918,7 +2966,7 @@ each(['createCredentials'
 })
 
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../node_modules/gulp-browserify/node_modules/browserify/node_modules/crypto-browserify/index.js","/../node_modules/gulp-browserify/node_modules/browserify/node_modules/crypto-browserify")
-},{"./md5":21,"./rng":22,"./sha":23,"./sha256":24,"1YiZ5S":25,"buffer":16}],21:[function(require,module,exports){
+},{"./md5":22,"./rng":23,"./sha":24,"./sha256":25,"1YiZ5S":26,"buffer":17}],22:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 /*
  * A JavaScript implementation of the RSA Data Security, Inc. MD5 Message
@@ -3085,7 +3133,7 @@ module.exports = function md5(buf) {
 };
 
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../node_modules/gulp-browserify/node_modules/browserify/node_modules/crypto-browserify/md5.js","/../node_modules/gulp-browserify/node_modules/browserify/node_modules/crypto-browserify")
-},{"./helpers":19,"1YiZ5S":25,"buffer":16}],22:[function(require,module,exports){
+},{"./helpers":20,"1YiZ5S":26,"buffer":17}],23:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 // Original code adapted from Robert Kieffer.
 // details at https://github.com/broofa/node-uuid
@@ -3120,7 +3168,7 @@ module.exports = function md5(buf) {
 }())
 
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../node_modules/gulp-browserify/node_modules/browserify/node_modules/crypto-browserify/rng.js","/../node_modules/gulp-browserify/node_modules/browserify/node_modules/crypto-browserify")
-},{"1YiZ5S":25,"buffer":16}],23:[function(require,module,exports){
+},{"1YiZ5S":26,"buffer":17}],24:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 /*
  * A JavaScript implementation of the Secure Hash Algorithm, SHA-1, as defined
@@ -3225,7 +3273,7 @@ module.exports = function sha1(buf) {
 };
 
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../node_modules/gulp-browserify/node_modules/browserify/node_modules/crypto-browserify/sha.js","/../node_modules/gulp-browserify/node_modules/browserify/node_modules/crypto-browserify")
-},{"./helpers":19,"1YiZ5S":25,"buffer":16}],24:[function(require,module,exports){
+},{"./helpers":20,"1YiZ5S":26,"buffer":17}],25:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 
 /**
@@ -3308,7 +3356,7 @@ module.exports = function sha256(buf) {
 };
 
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../node_modules/gulp-browserify/node_modules/browserify/node_modules/crypto-browserify/sha256.js","/../node_modules/gulp-browserify/node_modules/browserify/node_modules/crypto-browserify")
-},{"./helpers":19,"1YiZ5S":25,"buffer":16}],25:[function(require,module,exports){
+},{"./helpers":20,"1YiZ5S":26,"buffer":17}],26:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 // shim for using process in browser
 
@@ -3375,7 +3423,7 @@ process.chdir = function (dir) {
 };
 
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../node_modules/gulp-browserify/node_modules/browserify/node_modules/process/browser.js","/../node_modules/gulp-browserify/node_modules/browserify/node_modules/process")
-},{"1YiZ5S":25,"buffer":16}],26:[function(require,module,exports){
+},{"1YiZ5S":26,"buffer":17}],27:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 (function(definition){if(typeof exports==="object"){module.exports=definition();}else if(typeof define==="function"&&define.amd){define(definition);}else{mori=definition();}})(function(){return function(){
 var g,aa=this;
@@ -3780,7 +3828,7 @@ p("mori.zip.next",function(a){if(Wb.a(eh,a.b?a.b(1):a.call(null,1)))return a;var
 p("mori.zip.remove",function(a){P.c(a,0,null);var b=P.c(a,1,null),b=Mc(b)?S.a(Tf,b):b,c=Q.a(b,Zg),d=Q.a(b,Ug),e=Q.a(b,ah),f=Q.a(b,Wg);if(null==b)throw"Remove at top";if(0<O(c))for(a=N(new W(null,2,5,X,[yc(c),R.d(b,Zg,zc(c),J([bh,!0],0))],null),xc(a));;)if(b=Oi(a),b=r(b)?Ri(a):b,r(b))a=Ui(b);else return a;else return N(new W(null,2,5,X,[Qi(a,yc(e),f),r(d)?R.c(d,bh,!0):d],null),xc(a))});;return this.mori;}.call({});});
 
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../node_modules/mori/mori.js","/../node_modules/mori")
-},{"1YiZ5S":25,"buffer":16}],27:[function(require,module,exports){
+},{"1YiZ5S":26,"buffer":17}],28:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 //     uuid.js
 //
@@ -4029,7 +4077,7 @@ p("mori.zip.remove",function(a){P.c(a,0,null);var b=P.c(a,1,null),b=Mc(b)?S.a(Tf
 }).call(this);
 
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../node_modules/node-uuid/uuid.js","/../node_modules/node-uuid")
-},{"1YiZ5S":25,"buffer":16,"crypto":20}],28:[function(require,module,exports){
+},{"1YiZ5S":26,"buffer":17,"crypto":21}],29:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 /*!
  * EventEmitter v4.2.6 - git.io/ee
@@ -4505,4 +4553,4 @@ p("mori.zip.remove",function(a){P.c(a,0,null);var b=P.c(a,1,null),b=Mc(b)?S.a(Tf
 }.call(this));
 
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../node_modules/wolfy87-eventemitter/EventEmitter.js","/../node_modules/wolfy87-eventemitter")
-},{"1YiZ5S":25,"buffer":16}]},{},[11])
+},{"1YiZ5S":26,"buffer":17}]},{},[11])

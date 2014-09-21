@@ -46,7 +46,6 @@ var Canvas = React.createClass({
 		AppStore.finishCurrentPath();
 	}
 
-
 });
 
 
