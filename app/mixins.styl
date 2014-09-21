@@ -1,8 +1,8 @@
 $default-animation-duration = 200ms
 
 
-gray($alpha = 1)
-	rgba(0,0,0, $alpha)
+black($opacity = 1)
+	rgba(0,0,0,$opacity)
 
 
 absolute-fill()
@@ -15,19 +15,19 @@ absolute-fill()
 
 box-shadow($level = 2)
 	if $level is 0
-		box-shadow: 0 0 1px gray(0), 0 1px 2px gray(0)
+		box-shadow: 0 0 1px black(0), 0 1px 2px black(0)
 	else if $level is 1
-		box-shadow: 0 0 1px gray(0.12), 0 1px 2px gray(0.15)
+		box-shadow: 0 0 1px black(0.12), 0 1px 2px black(0.15)
 	else if $level is 2
-		box-shadow: 0 0 2px gray(0.12), 0 2px 3px gray(0.15)
+		box-shadow: 0 0 2px black(0.12), 0 2px 3px black(0.15)
 	else if $level is 3
-		box-shadow: 0 0 3px gray(0.12), 0 4px 6px gray(0.15)
+		box-shadow: 0 0 3px black(0.12), 0 4px 6px black(0.15)
 	else if $level is 4
-		box-shadow: 0 6px 16px gray(0.4), 0 6px 8px gray(0.15), -1px 0 0 gray(0.15), 1px 0 0 gray(0.15), 0 -1px 0 gray(0.1), 0 1px 0 gray(0.2)
+		box-shadow: 0 6px 16px black(0.4), 0 6px 8px black(0.15), -1px 0 0 black(0.15), 1px 0 0 black(0.15), 0 -1px 0 black(0.1), 0 1px 0 black(0.2)
 
 
 $button-background = rgb(240,240,240)
-$button-foreground = rgb(96,96,96)
+$button-foreground = black(0.6)
 $button-width      = 64px
 
 

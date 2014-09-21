@@ -114,7 +114,10 @@ AppStore.prototype.createPathInCurrentFrame = function(point) {
 
 AppStore.prototype.appendPathToCurrentFrame = function(point) {
 	var currentFrame = this.findCurrentFrame();
-	this.appendPointToFrame(currentFrame.get("key"), point);
+
+	if(currentFrame){
+		this.appendPointToFrame(currentFrame.get("key"), point);
+	}
 };
 
 

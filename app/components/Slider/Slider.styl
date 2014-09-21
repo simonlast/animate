@@ -1,7 +1,6 @@
 .Slider
 	display: flex
 	absolute-fill()
-	z-index: 2
 	cursor: -webkit-grab
 
 
@@ -9,7 +8,6 @@
 		flex-grow: 0
 		width: ($button-width / 2)
 		height: 100%
-		z-index: 1
 
 		&::before
 			content: ""
@@ -32,7 +30,7 @@
 
 		.button
 			position: absolute
-			z-index: 2
+			z-index: 3
 			button-style()
 			background-color: $button-foreground
 			margin-left: -1 * ($button-width / 2)
