@@ -6,13 +6,11 @@ var moriHelpers   = require("../helpers/moriHelpers.js");
 var RevisionStore = require("./RevisionStore.js");
 
 
-var PLAY_INTERVAL   = 100;
-var	MAX_FRAME_COUNT = 100;
-
-
-var STROKE_MIN_WIDTH     = 2;
-var STROKE_MAX_WIDTH     = 32;
-var STROKE_DEFAULT_WIDTH = 12;
+var PLAY_INTERVAL           = 100;
+var	DEFAULT_MAX_FRAME_COUNT = 50;
+var STROKE_MIN_WIDTH        = 2;
+var STROKE_MAX_WIDTH        = 32;
+var STROKE_DEFAULT_WIDTH    = 12;
 
 
 var defaultColors = mori.vector(
@@ -64,7 +62,7 @@ AppStore.prototype.getValue = function(callback) {
 		"frames", this.data.get("frames"),
 		"currentFrame", this.data.get("currentFrame"),
 		"playing", this.data.get("playing"),
-		"maxFrameCount", this.data.get("maxFrameCount"),
+		"maxFrameCount", this.getMaxFrameCount(),
 		"currentColor", this.data.get("currentColor"),
 		"colorOptions", this.data.get("colorOptions"),
 		"minWidth", this.data.get("minWidth"),
@@ -171,7 +169,7 @@ AppStore.prototype.advanceFrameWithGuard = function(){
 		}
 	}
 
-	if(newFrame > this.data.get("maxFrameCount")){
+	if(newFrame > this.getMaxFrameCount()){
 		newFrame = 0;
 	}
 
@@ -183,7 +181,7 @@ AppStore.prototype.advanceFrameWithGuard = function(){
 AppStore.prototype.advanceFrame = function() {
 	var newFrame  = this.data.get("currentFrame") + 1;
 
-	if(newFrame > this.data.get("maxFrameCount")) {
+	if(newFrame > this.getMaxFrameCount()) {
 		newFrame = 0;
 	}
 
@@ -195,7 +193,7 @@ AppStore.prototype.retractFrame = function() {
 	var newFrame = this.data.get("currentFrame") - 1;
 
 	if(newFrame < 0) {
-		newFrame = this.data.get("maxFrameCount");
+		newFrame = this.getMaxFrameCount();
 	}
 
 	this.setCurrentFrame(newFrame);
@@ -310,6 +308,18 @@ AppStore.prototype.generateCurrentPaths = function() {
 };
 
 
+AppStore.prototype.getMaxFrameCount = function(){
+	var lastFrame = this.findLastFrame();
+
+	if(!lastFrame || lastFrame.get("frameNumber") < DEFAULT_MAX_FRAME_COUNT - 10) {
+		return DEFAULT_MAX_FRAME_COUNT;
+	}
+	else {
+		return lastFrame.get("frameNumber") + 10;
+	}
+};
+
+
 /**
 * Private
 */
@@ -362,7 +372,6 @@ AppStore.prototype.setInitialData = function() {
 		"colorOptions", defaultColors,
 		"currentColor", mori.nth(defaultColors, 0),
 		"playing", false,
-		"maxFrameCount", MAX_FRAME_COUNT,
 		"minWidth", STROKE_MIN_WIDTH,
 		"maxWidth", STROKE_MAX_WIDTH,
 		"currentWidth", STROKE_DEFAULT_WIDTH
