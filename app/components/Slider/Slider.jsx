@@ -22,7 +22,8 @@ var Slider = React.createClass({
 
 		var buttonClassSet = classSet({
 			"button": true,
-			"active": this.state.dragging
+			"active": this.state.dragging,
+			"animate": this.props.playing && !(this.props.current === 0)
 		});
 
 		return (

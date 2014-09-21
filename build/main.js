@@ -530,7 +530,8 @@ var Slider = React.createClass({displayName: 'Slider',
 
 		var buttonClassSet = classSet({
 			"button": true,
-			"active": this.state.dragging
+			"active": this.state.dragging,
+			"animate": this.props.playing && !(this.props.current === 0)
 		});
 
 		return (
@@ -612,7 +613,11 @@ var Timeline = React.createClass({displayName: 'Timeline',
 
 		return (
 			React.DOM.div({className: "Timeline"}, 
-				Slider({current: this.props.currentFrame, max: this.props.maxFrameCount, onChange: this.sliderChanged}), 
+				Slider({
+					current: this.props.currentFrame, 
+					max: this.props.maxFrameCount, 
+					playing: this.props.playing, 
+					onChange: this.sliderChanged}), 
 				React.DOM.div({className: "previews"}, 
 					mori.clj_to_js(previews)
 				)
@@ -774,7 +779,7 @@ React.renderComponent(
   App(null),
   document.getElementById("root")
 );
-}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_c3c67c8e.js","/")
+}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_72abee3e.js","/")
 },{"./components/App/App.jsx":1,"1YiZ5S":26,"buffer":17}],12:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var mori = require("mori");

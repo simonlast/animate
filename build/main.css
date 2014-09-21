@@ -406,6 +406,13 @@
   -ms-transform: scale(1.1);
   transform: scale(1.1);
 }
+.Slider .slider-background .button.animate {
+  -webkit-transition: all 100ms linear;
+  -moz-transition: all 100ms linear;
+  -o-transition: all 100ms linear;
+  -ms-transition: all 100ms linear;
+  transition: all 100ms linear;
+}
 .Slider:active {
   cursor: -webkit-grabbing;
 }

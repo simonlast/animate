@@ -18,7 +18,11 @@ var Timeline = React.createClass({
 
 		return (
 			<div className="Timeline">
-				<Slider current={this.props.currentFrame} max={this.props.maxFrameCount} onChange={this.sliderChanged} />
+				<Slider
+					current={this.props.currentFrame}
+					max={this.props.maxFrameCount}
+					playing={this.props.playing}
+					onChange={this.sliderChanged} />
 				<div className="previews">
 					{mori.clj_to_js(previews)}
 				</div>
