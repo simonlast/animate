@@ -1,4 +1,5 @@
 $color-picker-padding = 10px
+$color-border = 6px
 
 .ColorPicker
 	display: block
@@ -7,6 +8,11 @@ $color-picker-padding = 10px
 
 	.current-color
 		button-style()
+
+		width: $button-width - ($color-border * 2)
+		height: $button-width - ($color-border * 2)
+
+		border: $color-border solid $button-background
 		cursor: pointer
 		transition: box-shadow $default-animation-duration ease, transform $default-animation-duration ease, background $default-animation-duration ease
 

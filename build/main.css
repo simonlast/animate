@@ -7,7 +7,7 @@
   display: -ms-flexbox;
   display: box;
   display: flex;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.15);
   padding: 12px;
 }
 .App > .timeline-container > *:not(:first-child) {
@@ -125,6 +125,9 @@
   -o-transform: scale(1);
   -ms-transform: scale(1);
   transform: scale(1);
+  width: 52px;
+  height: 52px;
+  border: 6px solid #f0f0f0;
   cursor: pointer;
   -webkit-transition: box-shadow 200ms ease, -webkit-transform 200ms ease, background 200ms ease;
   -moz-transition: box-shadow 200ms ease, -moz-transform 200ms ease, background 200ms ease;

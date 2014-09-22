@@ -18,7 +18,8 @@ var defaultColors = mori.vector(
 	"rgb(78,205,196)",
 	"rgb(199,244,100)",
 	"rgb(255,107,107)",
-	"rgb(196,77,88)"
+	"rgb(196,77,88)",
+	"rgb(255, 255, 255)"
 );
 
 
@@ -354,6 +355,7 @@ AppStore.prototype.loadFromStorage = function(){
 	if(value){
 		// Reset defaults
 		value.currentFrame = 0;
+		value.colorOptions = mori.clj_to_js(defaultColors);
 		value.currentColor = mori.nth(defaultColors, 0);
 		value.currentWidth = STROKE_DEFAULT_WIDTH;
 
